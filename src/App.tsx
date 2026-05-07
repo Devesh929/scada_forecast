@@ -138,7 +138,7 @@ function ForecastDag({ dag }: { dag: any }) {
       </div>
       
       <div className="flex flex-wrap justify-center gap-8 relative py-12">
-        {dag.nodes.map((node: any, idx: number) => (
+        {dag.nodes?.map((node: any, idx: number) => (
           <div key={node.id || idx} className="relative group">
             <div className={`w-40 p-4 rounded-2xl border transition-all ${
               node.type === 'data_ingest' ? 'bg-blue-500/10 border-blue-500/30 text-blue-400' :
@@ -170,7 +170,7 @@ function ForecastDag({ dag }: { dag: any }) {
 
       {dag.edges && dag.edges.length > 0 && (
         <div className="mt-4 pt-4 border-t border-white/5 grid grid-cols-1 md:grid-cols-2 gap-4">
-          {dag.edges.map((edge: any, i: number) => (
+          {dag.edges?.map((edge: any, i: number) => (
             <div key={i} className="flex items-center gap-3 text-[10px]">
               <span className="px-2 py-0.5 rounded bg-white/5 text-slate-400 font-mono">{edge.from}</span>
               <div className="flex-1 h-[1px] bg-white/5 relative">
@@ -370,13 +370,13 @@ function OnboardingView({ onComplete }: { onComplete: () => void }) {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: { 'application/pdf': ['.pdf'] },
     onDrop: (acceptedFiles) => {
-      const newFiles = acceptedFiles.map(f => ({ file: f, isSample: false, name: f.name }));
+      const newFiles = (acceptedFiles || []).map(f => ({ file: f, isSample: false, name: f.name }));
       setUploadedFiles(prev => [...prev, ...newFiles]);
     }
   });
 
   const loadSamples = () => {
-    setUploadedFiles(SAMPLE_DOCS.map(d => ({ ...d, isSample: true })));
+    setUploadedFiles((SAMPLE_DOCS || []).map(d => ({ ...d, isSample: true })));
     setBusinessReq("Multi-horizon renewable forecast system for deviation, dispatch, reserve and day-ahead planning as per RFP brief.");
   };
 
@@ -453,9 +453,9 @@ function OnboardingView({ onComplete }: { onComplete: () => void }) {
                 <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Drag & Drop RFP PDFs</p>
               </div>
 
-              {uploadedFiles.length > 0 && (
+              {uploadedFiles?.length > 0 && (
                 <div className="space-y-2">
-                  {uploadedFiles.map((f, i) => (
+                  {uploadedFiles?.map((f, i) => (
                     <div key={i} className="flex items-center justify-between p-3 bg-white/5 border border-white/5 rounded-xl">
                       <div className="flex items-center gap-3">
                         <FileText size={16} className={f.isSample ? "text-blue-400" : "text-emerald-400"} />

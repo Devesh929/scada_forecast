@@ -109,7 +109,6 @@ function PlantBrief({ plant, simState }: { plant: any; simState: any }) {
         const windData = JSON.parse(
           JSON.stringify(d)
             .replace(/Solar/g, 'Wind')
-            .replace(/inverter/g, 'turbine')
             .replace(/Inverter/g, 'Turbine')
             .replace(/Irradiance/g, 'Wind Speed')
             .replace(/POA/g, 'Anemometer')
@@ -117,7 +116,7 @@ function PlantBrief({ plant, simState }: { plant: any; simState: any }) {
             .replace(/Pavagada/g, 'Gadag')
             .replace(/Segment/g, 'Cluster')
             .replace(/Block/g, 'Turbine')
-            .replace(/block/g, 'turbine')
+            // Note: We avoid replacing lowercase 'block' or 'inverter' to preserve JSON keys
         );
         windData.plant.plant_id = "WND_GADAG";
         windData.plant.plant_name = "Gadag Wind Farm";
@@ -206,7 +205,7 @@ function PlantBrief({ plant, simState }: { plant: any; simState: any }) {
         <div className="flex justify-between items-end mb-8">
           <SectionHeader title="Infrastructure Topology" subtitle={plant.technology === 'wind' ? "Click any Cluster or Turbine for granular telemetry and equipment health." : "Click any Hub or Block for granular telemetry and equipment health."} />
           <div className="flex gap-4 mb-6">
-            {Object.entries(data.visual_status_palette).map(([key, val]: any) => (
+            {Object.entries(data?.visual_status_palette || {}).map(([key, val]: any) => (
               <div key={key} className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full" style={{ backgroundColor: val.border_color }} />
                 <span className="text-[10px] font-bold uppercase text-slate-500">{val.label}</span>
@@ -216,7 +215,7 @@ function PlantBrief({ plant, simState }: { plant: any; simState: any }) {
         </div>
 
         <div className="space-y-4">
-          {data.hubs.map((hub: any) => (
+          {data?.hubs?.map((hub: any) => (
             <div key={hub.hub_id} className="group relative">
               <div className="flex gap-4 items-stretch">
                 {/* Hub Detail Side Card */}
@@ -240,7 +239,7 @@ function PlantBrief({ plant, simState }: { plant: any; simState: any }) {
 
                 {/* Blocks Grid */}
                 <div className="flex-1 grid grid-cols-5 gap-3">
-                  {hub.blocks.map((block: any) => (
+                  {hub.blocks?.map((block: any) => (
                     <div 
                       key={block.block_id}
                       className="relative rounded-2xl border transition-all cursor-pointer overflow-hidden group/block"
@@ -273,7 +272,7 @@ function PlantBrief({ plant, simState }: { plant: any; simState: any }) {
       <div className="bg-black/40 border border-white/10 rounded-3xl p-8">
         <SectionHeader title="Operational Data Dictionary" subtitle="Plain-language definitions for telemetry tags, SCADA channels, and forecast outputs." />
         <div className="grid grid-cols-2 gap-8">
-          {dictionary.groups.map((group: any) => (
+          {dictionary?.groups?.map((group: any) => (
             <div key={group.group_id} className="bg-white/5 rounded-2xl p-6 border border-white/5">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-2 bg-blue-500/10 rounded-lg text-blue-400">
@@ -285,7 +284,7 @@ function PlantBrief({ plant, simState }: { plant: any; simState: any }) {
                 </div>
               </div>
               <div className="flex flex-wrap gap-2">
-                {group.fields.map((field: any) => (
+                {group.fields?.map((field: any) => (
                   <button 
                     key={field.field_name}
                     className="px-3 py-1.5 rounded-lg bg-black/40 border border-white/5 text-[10px] font-bold text-slate-400 hover:text-emerald-400 hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all flex items-center gap-2"
@@ -799,7 +798,7 @@ function LiveSimulation({ simState, plant, isPlaying, selectedHorizon, setSelect
     // Current time for the "NOW" reference
     const nowTime = targetPlant?.timestamp;
 
-    const combined = history.map(h => ({
+    const combined = (history || []).map(h => ({
       time: h.timestamp,
       actual: h.actual_mw,
       p50_history: h.forecast_p50_mw,
@@ -811,7 +810,7 @@ function LiveSimulation({ simState, plant, isPlaying, selectedHorizon, setSelect
     }));
 
     // Future points (P50/P10/P90 only)
-    const future = forecastPoints.map((p: any, i: number) => {
+    const future = (forecastPoints || []).map((p: any, i: number) => {
       const timeStr = engine.getTimeString(p.offset_min);
       // Avoid overlap with history
       if (history.some(h => h.timestamp === timeStr)) return null;
@@ -1205,7 +1204,7 @@ function OnlineLearning({ plant, simState, timelineData, eventLog, selectedHoriz
       </div>
 
       <div className="grid grid-cols-4 gap-4">
-        {config.primary_online_metrics.map((m: string) => {
+        {config?.primary_online_metrics?.map((m: string) => {
           let rawVal = activeTimeline?.[m];
           let val = rawVal || "0.0";
           let label = m.replace(/_/g, ' ').replace(' pct', '').replace(' mw', '').toUpperCase();
@@ -1234,14 +1233,14 @@ function OnlineLearning({ plant, simState, timelineData, eventLog, selectedHoriz
         <div className="bg-black/40 border border-white/10 rounded-3xl p-8 flex flex-col h-[400px]">
           <SectionHeader title="Learning Event Log" subtitle="History of autonomous parameter updates." />
           <div className="flex-1 space-y-4 overflow-y-auto custom-scrollbar pr-4">
-            {activeEvents.map((ev: any, i: number) => (
+            {activeEvents?.map((ev: any, i: number) => (
               <div key={i} className="flex gap-4 items-start p-4 rounded-2xl hover:bg-white/5 transition-all border border-white/5 hover:border-white/10 group">
                 <div className="mt-1.5">
                   <div className={`w-3 h-3 rounded-full border-2 border-black ${ev.intensity === 'high' ? 'bg-rose-500 shadow-[0_0_10px_rgba(244,63,94,0.5)]' : 'bg-emerald-500'}`} />
                 </div>
                 <div className="flex-1">
                   <div className="flex justify-between items-center mb-1.5">
-                    <span className="text-[10px] font-mono text-slate-500 font-bold tracking-widest">{ev.timestamp.split('T')[1].substring(0,5)}</span>
+                    <span className="text-[10px] font-mono text-slate-500 font-bold tracking-widest">{ev.timestamp?.split('T')[1]?.substring(0,5) || '--:--'}</span>
                     <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded border ${
                       ev.action_code === 'REFRESH' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
                     }`}>
