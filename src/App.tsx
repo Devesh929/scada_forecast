@@ -139,7 +139,7 @@ function ForecastDag({ dag }: { dag: any }) {
       
       <div className="flex flex-wrap justify-center gap-8 relative py-12">
         {dag.nodes.map((node: any, idx: number) => (
-          <div key={node.id} className="relative group">
+          <div key={node.id || idx} className="relative group">
             <div className={`w-40 p-4 rounded-2xl border transition-all ${
               node.type === 'data_ingest' ? 'bg-blue-500/10 border-blue-500/30 text-blue-400' :
               node.type === 'processing' ? 'bg-amber-500/10 border-amber-500/30 text-amber-400' :
@@ -151,7 +151,7 @@ function ForecastDag({ dag }: { dag: any }) {
                 {node.type === 'processing' && <Settings size={14} />}
                 {node.type === 'model' && <Cpu size={14} />}
                 {node.type === 'output' && <Zap size={14} />}
-                <span className="text-[10px] font-black uppercase tracking-tighter">{node.type.replace('_', ' ')}</span>
+                <span className="text-[10px] font-black uppercase tracking-tighter">{node.type?.replace('_', ' ') || 'NODE'}</span>
               </div>
               <p className="text-xs font-bold text-white mb-1">{node.label}</p>
               <p className="text-[9px] text-slate-400 leading-tight opacity-0 group-hover:opacity-100 transition-opacity absolute top-full left-0 right-0 mt-2 bg-black/80 p-2 rounded-lg z-10 border border-white/10 pointer-events-none">
@@ -168,17 +168,19 @@ function ForecastDag({ dag }: { dag: any }) {
         ))}
       </div>
 
-      <div className="mt-4 pt-4 border-t border-white/5 grid grid-cols-1 md:grid-cols-2 gap-4">
-        {dag.edges.map((edge: any, i: number) => (
-          <div key={i} className="flex items-center gap-3 text-[10px]">
-            <span className="px-2 py-0.5 rounded bg-white/5 text-slate-400 font-mono">{edge.from}</span>
-            <div className="flex-1 h-[1px] bg-white/5 relative">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black px-2 text-[8px] text-slate-600 font-bold uppercase">{edge.label}</div>
+      {dag.edges && dag.edges.length > 0 && (
+        <div className="mt-4 pt-4 border-t border-white/5 grid grid-cols-1 md:grid-cols-2 gap-4">
+          {dag.edges.map((edge: any, i: number) => (
+            <div key={i} className="flex items-center gap-3 text-[10px]">
+              <span className="px-2 py-0.5 rounded bg-white/5 text-slate-400 font-mono">{edge.from}</span>
+              <div className="flex-1 h-[1px] bg-white/5 relative">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black px-2 text-[8px] text-slate-600 font-bold uppercase">{edge.label}</div>
+              </div>
+              <span className="px-2 py-0.5 rounded bg-white/5 text-slate-400 font-mono">{edge.to}</span>
             </div>
-            <span className="px-2 py-0.5 rounded bg-white/5 text-slate-400 font-mono">{edge.to}</span>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

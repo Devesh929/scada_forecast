@@ -71,10 +71,12 @@ Return the forecast requirement recommendation in the exact JSON schema. Do not 
     const parsed = JSON.parse(jsonString);
     
     return {
-      recommended_solution: parsed.recommended_solution || { solution_type: "INTELLIGENT_FORECAST", deterministic_or_probabilistic: "PROBABILISTIC" },
-      request_understanding: parsed.request_understanding || { business_goal_plain_language: "Analyzing documents..." },
+      recommended_solution: parsed.recommended_solution || { solution_type: "INTELLIGENT_FORECAST", deterministic_or_probabilistic: "PROBABILISTIC", required_metrics: [] },
+      request_understanding: parsed.request_understanding || { business_goal_plain_language: "Analyzing documents...", detailed_objectives: [] },
       horizon_plan: parsed.horizon_plan || [],
       missing_information: parsed.missing_information || [],
+      execution_dag: parsed.execution_dag || { nodes: [], edges: [] },
+      implementation_steps: parsed.implementation_steps || [],
       ...parsed
     };
   } catch (e) {
