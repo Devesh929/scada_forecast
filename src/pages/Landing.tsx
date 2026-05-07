@@ -5,12 +5,12 @@ export default function Landing() {
   return (
     <div className="max-w-5xl mx-auto py-8">
       <div className="mb-12">
-        <h1 className="text-4xl font-bold mb-4 tracking-tight">SuryaGrid AI</h1>
+        <h1 className="text-4xl font-bold mb-4 tracking-tight">RampMitra AI</h1>
         <p className="text-xl text-slate-400 mb-6">
           Agentic Renewable Forecasting, SCADA Readiness, and Curtailment Detection
         </p>
         <p className="text-slate-300 max-w-3xl leading-relaxed">
-          SuryaGrid AI does not assume one universal model fits every renewable plant. It first understands the plant's available infrastructure — SCADA, meteorological sensors, weather forecasts, local limits, and historical data. It then recommends the right horizon-wise forecasting pipeline to produce probabilistic forecasts, ramp alerts, curtailment detection, and operator-ready recommendations.
+          RampMitra AI does not assume one universal model fits every renewable plant. It first understands the plant's available infrastructure — SCADA, meteorological sensors, weather forecasts, local limits, and historical data. It then recommends the right horizon-wise forecasting pipeline to produce probabilistic forecasts, ramp alerts, curtailment detection, and operator-ready recommendations.
         </p>
       </div>
 

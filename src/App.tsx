@@ -17,8 +17,8 @@ const agent = new AgentLogic();
 // Sample text from the PDFs to allow "Quick Load"
 const SAMPLE_DOCS = [
   {
-    name: "01_SuryaGrid_Business_Proposal_and_RFP_Brief.pdf",
-    content: `SURYAGRID AI Business Proposal and RFP Brief.
+    name: "01_RampMitra_Business_Proposal_and_RFP_Brief.pdf",
+    content: `RAMPMITRA AI Business Proposal and RFP Brief.
     Objective: Implement a multi-horizon forecasting system for the Karnataka Solar Cluster (Pavagada).
     Key Requirements:
     - Real-time ramp detection (< 15min lead time)
@@ -28,7 +28,7 @@ const SAMPLE_DOCS = [
   },
   {
     name: "02_Pavagada_SCADA_MET_NWP_Data_Specification.pdf",
-    content: `SURYAGRID AI SCADA, Meteorological and NWP Data Specification.
+    content: `RAMPMITRA AI SCADA, Meteorological and NWP Data Specification.
     Interfaces:
     - SCADA: Inverter-level MW, AC/DC Voltage, Current, Status Codes. (1-min resolution)
     - MET: GHI, POA, Ambient Temp, Module Temp from 4 weather stations.
@@ -36,7 +36,7 @@ const SAMPLE_DOCS = [
   },
   {
     name: "03_Plant_Technical_Onboarding_Dossier.pdf",
-    content: `SURYAGRID AI Plant Technical Onboarding Dossier.
+    content: `RAMPMITRA AI Plant Technical Onboarding Dossier.
     Asset: Pavagada Solar Park (Sector 3 & 4). 
     Capacity: 1000MW combined.
     Equipment: 1250kW Inverters (ABB PVS-175), SMA Cluster Controllers.
@@ -44,7 +44,7 @@ const SAMPLE_DOCS = [
   },
   {
     name: "04_Grid_Operations_RFP_and_Evaluation_Brief.pdf",
-    content: `SURYAGRID AI Grid Operations RFP and Evaluation Brief.
+    content: `RAMPMITRA AI Grid Operations RFP and Evaluation Brief.
     Compliance: CERC Forecasting & Scheduling Regulations.
     Penalty Structure: Bands of 5%, 10%, 15% deviation vs schedule.
     Evaluation Metrics: Normalized Mean Absolute Error (nMAE), Bias, and Ramp Catch Rate.`
@@ -95,7 +95,7 @@ export default function App() {
       <header className="app-header">
         <div className="logo" onClick={() => setViewMode("start")}>
           <div className="logo-dot" />
-          <span className="logo-text">SuryaGrid AI</span>
+          <span className="logo-text">RampMitra AI</span>
         </div>
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-2 px-4 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full">

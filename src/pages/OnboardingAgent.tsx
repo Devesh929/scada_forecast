@@ -43,7 +43,7 @@ export default function OnboardingAgent() {
               <Bot size={18} className="text-blue-400" />
             </div>
             <div className="bg-slate-800 rounded-lg rounded-tl-none p-4 text-sm text-slate-200">
-              Hello! I am the SuryaGrid Onboarding Agent. Please provide the plant metadata and upload a sample of your SCADA schema (comma separated headers). I will score the data readiness and design a forecasting pipeline for you.
+              Hello! I am the RampMitra Onboarding Agent. Please provide the plant metadata and upload a sample of your SCADA schema (comma separated headers). I will score the data readiness and design a forecasting pipeline for you.
             </div>
           </div>
 

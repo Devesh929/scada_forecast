@@ -57,7 +57,7 @@ export default function DataReadiness({ simState }: { simState: SimulationState 
             <CardContent>
               <div className="space-y-4 text-sm text-slate-300">
                 <p>If KSPDCL provides only <strong>Actual MW</strong>, the AI can only build a baseline autoregressive forecast.</p>
-                <p>By integrating <strong>Irradiance + Inverter Availability + Local Limits</strong>, SuryaGrid AI can accurately calculate <em>Possible Power</em> and decouple weather impacts from equipment or grid issues.</p>
+                <p>By integrating <strong>Irradiance + Inverter Availability + Local Limits</strong>, RampMitra AI can accurately calculate <em>Possible Power</em> and decouple weather impacts from equipment or grid issues.</p>
                 <p>This explainability is critical for identifying exactly why a block is deviating from its schedule.</p>
               </div>
             </CardContent>

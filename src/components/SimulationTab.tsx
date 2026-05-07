@@ -116,11 +116,23 @@ function PlantBrief({ plant, simState }: { plant: any; simState: any }) {
             .replace(/Pavagada/g, 'Gadag')
             .replace(/Segment/g, 'Cluster')
             .replace(/Block/g, 'Turbine')
-            // Note: We avoid replacing lowercase 'block' or 'inverter' to preserve JSON keys
         );
         windData.plant.plant_id = "WND_GADAG";
         windData.plant.plant_name = "Gadag Wind Farm";
+        windData.plant.asset_type = "wind";
+        windData.plant.state = "Karnataka";
+        windData.plant.district = "Gadag";
+        windData.plant.design_capacity_mw = 300;
+        windData.plant.ac_capacity_mw = 300;
+        windData.plant.dc_capacity_mwp = 300;
         windData.plant.layout_summary = "8 clusters / 40 turbines / nacelle groups";
+        
+        // Fix snapshot values to be within wind capacity limits
+        windData.plant.current_operating_snapshot.actual_mw = 226.5;
+        windData.plant.current_operating_snapshot.possible_power_mw = 248.2;
+        windData.plant.current_operating_snapshot.scheduled_mw = 210.0;
+        windData.plant.current_operating_snapshot.local_limit_mw = 300.0;
+        
         setData(windData);
       } else {
         setData(d);
