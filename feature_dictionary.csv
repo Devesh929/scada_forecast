@@ -1,0 +1,77 @@
+column_name,feature_group,description,used_by_model,notes
+row_id,metadata,"metadata field used for model training, validation or simulation.",context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+timestamp,metadata,"metadata field used for model training, validation or simulation.",context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+year,metadata,"metadata field used for model training, validation or simulation.",context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+month,metadata,"metadata field used for model training, validation or simulation.",context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+day_of_year,metadata,"metadata field used for model training, validation or simulation.",context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+hour,metadata,"metadata field used for model training, validation or simulation.",context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+minute,metadata,"metadata field used for model training, validation or simulation.",context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+asset_type,metadata,"metadata field used for model training, validation or simulation.",context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+plant_id,metadata,"metadata field used for model training, validation or simulation.",context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+asset_level,metadata,"metadata field used for model training, validation or simulation.",context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+hub_id,metadata,"metadata field used for model training, validation or simulation.",context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+block_id,metadata,"metadata field used for model training, validation or simulation.",context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+wind_farm_id,metadata,"metadata field used for model training, validation or simulation.",context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+turbine_group_id,metadata,"metadata field used for model training, validation or simulation.",context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+capacity_mw,metadata,"metadata field used for model training, validation or simulation.",context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+horizon,metadata,"metadata field used for model training, validation or simulation.",context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+horizon_minutes,metadata,"metadata field used for model training, validation or simulation.",context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+business_use_case,metadata,"metadata field used for model training, validation or simulation.",context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+business_name,metadata,"metadata field used for model training, validation or simulation.",context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+model_family,metadata,"metadata field used for model training, validation or simulation.",context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+uncertainty_method,metadata,"metadata field used for model training, validation or simulation.",context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+train_split,metadata,"metadata field used for model training, validation or simulation.",context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+actual_mw,scada,"scada field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+possible_power_mw,scada,"scada field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+scheduled_mw,scada,"scada field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+local_limit_mw,scada,"scada field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+control_setpoint_mw,scada,"scada field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+availability_pct,scada,"scada field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+scada_quality,scada,"scada field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+scada_latency_seconds,scada,"scada field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+curtailment_status,scada,"scada field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+ramp_rate_mw_min,scada,"scada field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+ghi_wm2,solar_met,"solar_met field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+poa_wm2,solar_met,"solar_met field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+dni_wm2,solar_met,"solar_met field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+ambient_temp_c,solar_met,"solar_met field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+module_temp_c,solar_met,"solar_met field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+cloud_cover_pct,solar_met,"solar_met field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+cloud_obstruction_probability,solar_met,"solar_met field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+sky_camera_cloud_motion_deg,solar_met,"solar_met field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+humidity_pct,solar_met,"solar_met field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+pressure_hpa,solar_met,"solar_met field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+hub_height_wind_speed_ms,wind_met,"wind_met field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+wind_direction_deg,wind_met,"wind_met field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+turbulence_intensity,wind_met,"wind_met field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+nacelle_wind_speed_ms,wind_met,"wind_met field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+lidar_upstream_wind_ms,wind_met,"wind_met field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+wake_loss_pct,wind_met,"wind_met field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+air_density_kg_m3,wind_met,"wind_met field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+nwp_ghi_forecast_wm2,nwp,"nwp field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+nwp_wind_speed_100m_ms,nwp,"nwp field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+nwp_wind_direction_deg,nwp,"nwp field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+nwp_cloud_cover_pct,nwp,"nwp field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+nwp_temperature_c,nwp,"nwp field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+nwp_pressure_hpa,nwp,"nwp field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+nwp_ensemble_member_id,nwp,"nwp field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+nwp_issue_lag_hours,nwp,"nwp field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+target_actual_mw_horizon,target_prediction,Synthetic future actual MW at the selected horizon; this is the supervised learning target.,context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+forecast_p10_mw,target_prediction,Lower probabilistic forecast bound.,context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+forecast_p50_mw,target_prediction,Synthetic central forecast learned from persistence + physical/NWP features depending on horizon.,context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+forecast_p90_mw,target_prediction,Upper probabilistic forecast bound.,context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+residual_mw,target_prediction,"target_prediction field used for model training, validation or simulation.",context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+absolute_error_mw,target_prediction,"target_prediction field used for model training, validation or simulation.",context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+normalized_error_pct,target_prediction,"target_prediction field used for model training, validation or simulation.",context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+inside_p10_p90,target_prediction,"target_prediction field used for model training, validation or simulation.",context,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+event_label,event_learning,"event_learning field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+event_probability,event_learning,"event_learning field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+root_cause,event_learning,"event_learning field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+event_severity,event_learning,"event_learning field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+model_confidence_pct,event_learning,"event_learning field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+learned_residual_bias_mw,event_learning,Synthetic residual bias the model has learned for the current regime.,yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+learned_uncertainty_scale,event_learning,"Synthetic uncertainty multiplier learned from horizon, event and data quality.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+learned_regime_id,event_learning,Regime/event state used to show what pattern the model learned from.,yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+feature_importance_top1,event_learning,"event_learning field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+feature_importance_top2,event_learning,"event_learning field used for model training, validation or simulation.",yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.
+sample_weight,event_learning,Higher value for event rows so training focuses on rare but operationally important events.,yes,Solar-only fields are blank for wind rows; wind-only fields are blank for solar rows.

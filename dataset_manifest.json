@@ -1,0 +1,28 @@
+{
+  "dataset_name": "SuryaGrid Massive Synthetic Model Training Dataset",
+  "synthetic": true,
+  "main_csv": "renewable_model_training_massive.csv",
+  "rows": 300000,
+  "columns": 76,
+  "asset_types": [
+    "solar",
+    "wind"
+  ],
+  "horizons": [
+    "5min",
+    "15min",
+    "30min",
+    "1hour",
+    "2hour",
+    "4hour",
+    "day_ahead_40hour",
+    "8day"
+  ],
+  "files": {
+    "renewable_model_training_massive.csv": "Main many-row, many-column training sample dataset.",
+    "horizon_method_config.csv": "Horizon to business use case/model/metric mapping.",
+    "model_learning_summary.csv": "Aggregated performance summary by asset/horizon/split.",
+    "feature_dictionary.csv": "Column dictionary.",
+    "README.md": "Usage notes."
+  }
+}
