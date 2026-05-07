@@ -5,8 +5,8 @@ import { BlockRecord } from "../simulation/types";
 import { ShieldAlert, Zap, AlertTriangle } from "lucide-react";
 
 export default function PavagadaPark({ simState }: { simState: SimulationState }) {
-  const pavagada = simState.plants.find(p => p.plant_id === "PAV");
-  const pavBlocks = simState.blocks.filter(b => b.park_id === "PAV");
+  const pavagada = simState.plants.find((p: any) => p.plant_id === "PAV");
+  const pavBlocks = simState.blocks.filter((b: any) => b.park_id === "PAV");
   
   const [selectedBlock, setSelectedBlock] = useState<BlockRecord | null>(null);
 
@@ -53,10 +53,10 @@ export default function PavagadaPark({ simState }: { simState: SimulationState }
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-4 gap-4">
-                {segments.map(seg => {
-                  const segBlocks = pavBlocks.filter(b => b.segment_id === seg);
-                  const segActual = segBlocks.reduce((sum, b) => sum + b.actual_mw, 0);
-                  const segCap = segBlocks.reduce((sum, b) => sum + b.capacity_mw, 0);
+                {segments.map((seg: any) => {
+                  const segBlocks = pavBlocks.filter((b: any) => b.segment_id === seg);
+                  const segActual = segBlocks.reduce((sum: any, b: any) => sum + b.actual_mw, 0);
+                  const segCap = segBlocks.reduce((sum: any, b: any) => sum + b.capacity_mw, 0);
                   
                   return (
                     <div key={seg} className="border border-slate-700 rounded-md p-3 bg-slate-950/50">
@@ -65,7 +65,7 @@ export default function PavagadaPark({ simState }: { simState: SimulationState }
                         <span className="text-xs font-mono text-emerald-400">{segActual.toFixed(0)}/{segCap}</span>
                       </div>
                       <div className="grid grid-cols-5 gap-1">
-                        {segBlocks.map(block => {
+                        {segBlocks.map((block: any) => {
                           let bg = "bg-emerald-500/80";
                           if (block.curtailment_status === 'CONFIRMED') bg = "bg-rose-500/80";
                           else if (block.curtailment_flag) bg = "bg-amber-500/80";

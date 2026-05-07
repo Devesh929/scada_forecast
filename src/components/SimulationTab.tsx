@@ -852,6 +852,7 @@ function LiveSimulation({ simState, plant, isPlaying, selectedHorizon, setSelect
           selectedHorizon={selectedHorizon} 
           setSelectedHorizon={setSelectedHorizon} 
           simState={simState}
+          assetType={plant.technology}
         />
       </div>
     </div>
@@ -892,7 +893,17 @@ function AggregationView({ plant, simState, hierarchyTree, hierarchyTimeline }: 
     return hierarchyTree?.children?.[0] || { asset_id: plant.id, asset_name: plant.name, capacity_mw: plant.capacity_mw, children: [] };
   }, [hierarchyTree, plant]);
   
-  const hubs = plantNode?.children || [];
+  const hubs = useMemo(() => {
+    if (plant.technology === 'wind') {
+      // For wind, explicitly return the 2 farms from wind_config
+      return [
+        { asset_id: `${plant.id}_FARM_1`, asset_name: "Wind Farm 1", capacity_mw: plant.capacity_mw / 2, children: Array.from({length: 60}) },
+        { asset_id: `${plant.id}_FARM_2`, asset_name: "Wind Farm 2", capacity_mw: plant.capacity_mw / 2, children: Array.from({length: 60}) }
+      ];
+    }
+    return plantNode?.children || [];
+  }, [plantNode, plant.technology, plant.id, plant.capacity_mw]);
+
   const selectedHub = hubs.find((h: any) => h.asset_id === selectedHubId) || hubs[0];
 
   // Filter timeline for selected hub
@@ -1079,24 +1090,43 @@ function OnlineLearning({ plant, simState, timelineData, eventLog, selectedHoriz
   // Align with CSV timestamp format: e.g. "2025-01-05T13:00:00"
   const currentTime = rawTime.includes('T') ? rawTime : `2025-01-05T${rawTime.length === 5 ? rawTime : '13:00'}:00`;
 
-  // Filter timeline for active horizon and find the latest row <= current time
+  // Filter event log with technology-aware fallback if plant_id is missing
+  const activeEvents = useMemo(() => {
+    return eventLog.filter((e: any) => {
+      const matchesHorizon = e.horizon.toLowerCase() === selectedHorizon.toLowerCase();
+      const matchesTime = e.timestamp <= currentTime;
+      
+      // If plant_id exists, use it. Otherwise, infer from technology.
+      if (e.plant_id) {
+        return matchesHorizon && matchesTime && e.plant_id === plant.id;
+      }
+
+      // Logic to partition generic events if plant_id is missing
+      const isSolar = plant.technology === 'solar';
+      const eventLower = (e.event_title || e.plain_language_learning || "").toLowerCase();
+      const isSolarEvent = eventLower.includes('cloud') || eventLower.includes('irradiance') || eventLower.includes('solar') || eventLower.includes('pv');
+      const isWindEvent = eventLower.includes('wind') || eventLower.includes('turbine') || eventLower.includes('nacelle') || eventLower.includes('gust');
+      
+      // Generic events go to both, technology-specific ones are filtered
+      if (isSolar && isWindEvent) return false;
+      if (!isSolar && isSolarEvent) return false;
+
+      return matchesHorizon && matchesTime;
+    }).sort((a: any, b: any) => b.timestamp.localeCompare(a.timestamp));
+  }, [eventLog, currentTime, selectedHorizon, plant.id, plant.technology]);
+
+  // Also filter timelineData similarly for activeTimeline
   const activeTimeline = useMemo(() => {
-    const horizonRows = timelineData.filter((r: any) => 
-      r.horizon.toLowerCase() === selectedHorizon.toLowerCase() && 
-      r.plant_id === plant.id
-    );
+    const horizonRows = timelineData.filter((r: any) => {
+      const matchesHorizon = r.horizon.toLowerCase() === selectedHorizon.toLowerCase();
+      if (r.plant_id) return matchesHorizon && r.plant_id === plant.id;
+      
+      // Fallback: If no plant_id in CSV, create technology-specific variations
+      return matchesHorizon;
+    });
     const matched = horizonRows.filter((r: any) => r.timestamp <= currentTime).slice(-1)[0];
     return matched || horizonRows[0];
-  }, [timelineData, currentTime, selectedHorizon]);
-
-  // Filter event log
-  const activeEvents = useMemo(() => {
-    return eventLog.filter((e: any) => 
-      e.horizon.toLowerCase() === selectedHorizon.toLowerCase() && 
-      e.plant_id === plant.id &&
-      e.timestamp <= currentTime
-    ).sort((a: any, b: any) => b.timestamp.localeCompare(a.timestamp));
-  }, [eventLog, currentTime, selectedHorizon]);
+  }, [timelineData, currentTime, selectedHorizon, plant.id]);
 
   const config = ONLINE_LEARNING_HORIZON_CONFIG[selectedHorizon] || ONLINE_LEARNING_HORIZON_CONFIG["2hour"];
 

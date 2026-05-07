@@ -79,7 +79,7 @@ export default function StateControlRoom({ simState }: { simState: SimulationSta
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
               />
-              {simState.plants.map(p => (
+              {simState.plants.map((p: any) => (
                 <CircleMarker
                   key={p.plant_id}
                   center={[p.lat, p.lon]}
@@ -133,7 +133,7 @@ export default function StateControlRoom({ simState }: { simState: SimulationSta
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {simState.alerts.slice(0, 3).map(alert => (
+                {simState.alerts.slice(0, 3).map((alert: any) => (
                   <div key={alert.id} className="flex items-start gap-3 p-3 rounded-lg border border-slate-800 bg-slate-950/50">
                     <AlertTriangle className={`mt-0.5 h-5 w-5 flex-shrink-0 ${alert.severity === 'CRITICAL' ? 'text-rose-500' : 'text-amber-500'}`} />
                     <div>

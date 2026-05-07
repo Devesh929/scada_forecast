@@ -8,9 +8,9 @@ export default function WindForecasting({ simState }: { simState: SimulationStat
   const windPlants = simState.plants.filter(p => p.technology === "wind");
 
   // Aggregate wind total
-  const totalWindActual = windPlants.reduce((sum, p) => sum + p.actual_mw, 0);
-  const totalWindForecast = windPlants.reduce((sum, p) => sum + p.forecast_p50_mw, 0);
-  const totalWindCap = windPlants.reduce((sum, p) => sum + p.capacity_mw, 0);
+  const totalWindActual = windPlants.reduce((sum: any, p: any) => sum + p.actual_mw, 0);
+  const totalWindForecast = windPlants.reduce((sum: any, p: any) => sum + p.forecast_p50_mw, 0);
+  const totalWindCap = windPlants.reduce((sum: any, p: any) => sum + p.capacity_mw, 0);
 
   // Generate mock power curve data for display
   const powerCurveData = Array.from({ length: 25 }, (_, i) => {
@@ -37,14 +37,14 @@ export default function WindForecasting({ simState }: { simState: SimulationStat
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
           <div className="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-1">Avg Hub Wind Speed</div>
           <div className="text-2xl font-bold font-mono text-blue-400">
-            {(windFarms.reduce((s, f) => s + f.hub_wind_speed_ms, 0) / (windFarms.length || 1)).toFixed(1)} m/s
+            {(windFarms.reduce((s: any, f: any) => s + f.hub_wind_speed_ms, 0) / (windFarms.length || 1)).toFixed(1)} m/s
           </div>
-          <div className="text-sm text-slate-500 mt-2">Active Turbines: {windFarms.reduce((s,f) => s + f.turbine_available, 0)}</div>
+          <div className="text-sm text-slate-500 mt-2">Active Turbines: {windFarms.reduce((s: any, f: any) => s + f.turbine_available, 0)}</div>
         </div>
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
           <div className="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-1">Active Wind Alerts</div>
           <div className="text-2xl font-bold font-mono text-red-400">
-            {simState.alerts.filter(a => a.technology === "wind").length}
+            {simState.alerts.filter((a: any) => a.technology === "wind").length}
           </div>
           <div className="text-sm text-slate-500 mt-2 flex items-center gap-1"><AlertTriangle size={12}/> Needs attention</div>
         </div>
@@ -70,7 +70,7 @@ export default function WindForecasting({ simState }: { simState: SimulationStat
                 </tr>
               </thead>
               <tbody>
-                {windFarms.map((farm, idx) => (
+                {windFarms.map((farm: any, idx: any) => (
                   <tr key={idx} className="border-b border-slate-800/50 hover:bg-slate-800/30">
                     <td className="px-4 py-3 font-medium">{farm.farm_name}</td>
                     <td className="px-4 py-3 font-mono text-emerald-400">{farm.actual_mw.toFixed(1)}</td>

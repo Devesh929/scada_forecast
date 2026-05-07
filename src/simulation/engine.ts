@@ -227,9 +227,9 @@ export class SimulationEngine {
                 poor_scada: scadaQuality !== "GOOD"
               });
 
-              const forecastP50 = replaySample ? replaySample.p50 : forecastObj.p50;
-              const forecastP10 = replaySample ? replaySample.p10 : forecastP50 * 0.9;
-              const forecastP90 = replaySample ? replaySample.p90 : forecastP50 * 1.1;
+              const forecastP50 = replaySample ? ((replaySample as any).p50 || (replaySample as any).forecast) : forecastObj.p50;
+              const forecastP10 = replaySample ? ((replaySample as any).p10 || forecastP50 * 0.9) : forecastP50 * 0.9;
+              const forecastP90 = replaySample ? ((replaySample as any).p90 || forecastP50 * 1.1) : forecastP50 * 1.1;
               
               let curtailmentStatus: CurtailmentStatus = "NOT_DETECTED";
               if (localLimit < possiblePower) curtailmentStatus = "CONFIRMED";
@@ -352,9 +352,9 @@ export class SimulationEngine {
             poor_scada: false
           });
 
-          const forecastP50 = replaySample ? replaySample.p50 : forecastObj.p50;
-          const forecastP10 = replaySample ? replaySample.p10 : forecastP50 * 0.8;
-          const forecastP90 = replaySample ? replaySample.p90 : forecastP50 * 1.2;
+          const forecastP50 = replaySample ? ((replaySample as any).p50 || (replaySample as any).forecast) : forecastObj.p50;
+          const forecastP10 = replaySample ? ((replaySample as any).p10 || forecastP50 * 0.8) : forecastP50 * 0.8;
+          const forecastP90 = replaySample ? ((replaySample as any).p90 || forecastP50 * 1.2) : forecastP50 * 1.2;
 
           let farmActual = replaySample ? (replaySample.actual / plant.capacity_mw) * farmCap : actualMw;
 

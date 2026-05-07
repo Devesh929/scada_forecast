@@ -19,7 +19,7 @@ const BASE=[
 
 const SPREAD:Record<string,number>={'5min':1.5,'15min':2.8,'1hr':5.0,'2hr':8.0,'day':14.0};
 
-const EVENTS:any[]=[
+const SOLAR_EVENTS:any[]=[
   {id:'E1',tStart:mkT(15,20),tEnd:mkT(17,15),shortLabel:'Cloud Ramp-Up',severity:'high',
    rootCause:'NWP ensemble detects cloud clearance after 15:20 IST causing sigmoid ramp-up.',
    description:'Generation expected to surge 17→31 MW in 90 min. Schedule constraint may trigger curtailment.',
@@ -30,7 +30,18 @@ const EVENTS:any[]=[
    impactMw:-12.0,horizons:['1hr','2hr','day']},
 ];
 
-const PATTERNS:Record<string,any[]>={
+const WIND_EVENTS:any[]=[
+  {id:'WE1',tStart:mkT(14,40),tEnd:mkT(15,30),shortLabel:'Sudden Gust Front',severity:'high',
+   rootCause:'High-pressure front moving from Gadag-West sector.',
+   description:'Wind speed jump from 6m/s to 12m/s expected. Monitoring pitch system limits.',
+   impactMw:+15.0,horizons:['5min','15min','1hr']},
+  {id:'WE2',tStart:mkT(16,30),tEnd:mkT(17,45),shortLabel:'Wake Loss Increase',severity:'medium',
+   rootCause:'Wind direction shift to 285° causes turbine-to-turbine shielding.',
+   description:'Expected 5% drop in cluster efficiency due to wake shadowing.',
+   impactMw:-4.5,horizons:['1hr','2hr','day']},
+];
+
+const SOLAR_PATTERNS:Record<string,any[]>={
   '5min':[
     {root:'SCADA',label:'Micro Ramp Detected',confidence:94,prob:0.12,action:'Watch inverter response'},
     {root:'Weather',label:'Cloud Edge Approaching',confidence:81,prob:0.34,action:'Activate ramp buffer'},
@@ -42,7 +53,6 @@ const PATTERNS:Record<string,any[]>={
   '1hr':[
     {root:'Weather',label:'Cloud Ramp-Up',confidence:78,prob:0.68,action:'Pre-notify SLDC'},
     {root:'Weather',label:'Evening Ramp-Down',confidence:88,prob:0.91,action:'File evening ramp plan'},
-    {root:'Grid',label:'Local Limit Breach',confidence:65,prob:0.38,action:'Monitor substation load'},
   ],
   '2hr':[
     {root:'Weather',label:'Cloud Ramp-Up',confidence:72,prob:0.71,action:'Stage spinning reserve'},
@@ -52,7 +62,30 @@ const PATTERNS:Record<string,any[]>={
   'day':[
     {root:'NWP',label:'Day-Ahead Ramp Profile',confidence:55,prob:0.74,action:'Submit DA schedule revision'},
     {root:'Weather',label:'Evening Ramp-Down',confidence:88,prob:0.95,action:'File statutory ramp plan'},
-    {root:'Grid',label:'Congestion Window',confidence:48,prob:0.41,action:'Coordinate with RLDC'},
+  ],
+};
+
+const WIND_PATTERNS:Record<string,any[]>={
+  '5min':[
+    {root:'SCADA',label:'Pitch Oscillation',confidence:91,prob:0.18,action:'Check turbine #04 limit'},
+    {root:'Weather',label:'Frontal Arrival',confidence:85,prob:0.25,action:'Prepare for gust ramp'},
+  ],
+  '15min':[
+    {root:'Weather',label:'Sudden Gust Front',confidence:89,prob:0.72,action:'Monitor active power limit'},
+    {root:'Grid',label:'Nodal Capacity Constraint',confidence:71,prob:0.35,action:'Coordinate with PGCIL'},
+  ],
+  '1hr':[
+    {root:'Weather',label:'Low Velocity Lull',confidence:82,prob:0.55,action:'Update intra-hour schedule'},
+    {root:'Weather',label:'Wake Loss Increase',confidence:85,prob:0.81,action:'Recalibrate dynamic loss model'},
+  ],
+  '2hr':[
+    {root:'Weather',label:'Sudden Gust Front',confidence:78,prob:0.75,action:'Lock reactive power settings'},
+    {root:'Weather',label:'Wake Loss Increase',confidence:88,prob:0.88,action:'Optimize turbine yaw orientation'},
+    {root:'NWP',label:'Boundary Layer Turbulence',confidence:63,prob:0.60,action:'Increase P10-P90 safety band'},
+  ],
+  'day':[
+    {root:'NWP',label:'Diurnal Wind Cycle',confidence:58,prob:0.70,action:'Finalize weekly grid commit'},
+    {root:'Weather',label:'Wake Loss Increase',confidence:84,prob:0.90,action:'Verify loss model calibration'},
   ],
 };
 
@@ -67,7 +100,7 @@ function smooth(pts:[number,number][]){
   }return d;
 }
 
-export default function OperationalForecastChart({ isPlaying, selectedHorizon, setSelectedHorizon, simState }: any) {
+export default function OperationalForecastChart({ isPlaying, selectedHorizon, setSelectedHorizon, simState, assetType = 'solar' }: any) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const [dims, setDims] = useState({ w: 800, h: 380 });
   const [xOff, setXOff] = useState(0);
@@ -116,7 +149,9 @@ export default function OperationalForecastChart({ isPlaying, selectedHorizon, s
 
   const sp = SPREAD[selectedHorizon] || 5;
   const nowT = BASE[nowIdx].t;
-  const visEvents = EVENTS.filter(ev => ev.horizons.includes(selectedHorizon));
+  
+  const events = assetType === 'solar' ? SOLAR_EVENTS : WIND_EVENTS;
+  const visEvents = events.filter(ev => ev.horizons.includes(selectedHorizon));
 
   const bandTop:[number,number][]=[];
   const bandBot:[number,number][]=[];
@@ -138,7 +173,8 @@ export default function OperationalForecastChart({ isPlaying, selectedHorizon, s
   for(let t=BASE[0].t;t<=T1;t+=15*60*1000)ticks.push(t);
 
   const nx=PAD.left+xPx(nowT);
-  const patterns = PATTERNS[selectedHorizon] || [];
+  const patternsSource = assetType === 'solar' ? SOLAR_PATTERNS : WIND_PATTERNS;
+  const patterns = patternsSource[selectedHorizon] || [];
 
   return(
     <div style={{display:'flex',gap:0,width:'100%',fontFamily:'Inter,sans-serif'}}>

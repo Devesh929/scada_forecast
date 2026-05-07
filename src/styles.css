@@ -549,3 +549,6 @@ button.secondary {
 button.secondary:hover {
   background: rgba(255, 255, 255, 0.1);
 }
+/* --- Dropzone Styles --- */
+.dropzone-active { border-color: var(--green) !important; background: rgba(53, 208, 127, 0.05) !important; }
+.file-list-item { animation: slideInUp 0.3s ease-out; }

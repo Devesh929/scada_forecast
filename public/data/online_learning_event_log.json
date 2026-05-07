@@ -3,90 +3,99 @@
     "timestamp": "2025-01-05T14:30:00",
     "time_label": "14:30",
     "horizon": "5min",
+    "plant_id": "SOL_PAVAGADA",
     "learning_signal": "NORMAL_LEARNING",
     "action_code": "NO_ACTION",
-    "plain_language_learning": "Continue normal nowcast update.",
-    "why_it_happened": "Normal monitoring state changed."
+    "event_title": "Solar Baseline Monitoring",
+    "explanation": "Continue normal nowcast update for Pavagada Solar.",
+    "why_it_happened": "Clear sky conditions confirmed."
+  },
+  {
+    "timestamp": "2025-01-05T14:40:00",
+    "time_label": "14:40",
+    "horizon": "5min",
+    "plant_id": "WND_GADAG",
+    "learning_signal": "DERATING_DETECTED",
+    "action_code": "PARAM_REFRESH",
+    "event_title": "Turbine Group-2 Thermal Limit",
+    "explanation": "Detected step-drop in power due to thermal derating in sector B. Refreshing physical loss parameters.",
+    "why_it_happened": "Ambient temperature exceeded 38°C; turbines shifted to protection mode."
   },
   {
     "timestamp": "2025-01-05T15:15:00",
     "time_label": "15:15",
     "horizon": "5min",
+    "plant_id": "SOL_PAVAGADA",
     "learning_signal": "PRE_EVENT_RAMP_WARNING_LEARNED",
     "action_code": "SHORT_REFRESH",
-    "plain_language_learning": "Refresh very-short-term residual weight using latest 30 minutes.",
-    "why_it_happened": "Event probability crossed warning level before actual ramp."
+    "event_title": "Cloud Band Approach",
+    "explanation": "Satellite data shows high-density cumulus approaching solar park. Refreshing short-term weights.",
+    "why_it_happened": "Satellite imagery confirmed 80% probability of ramp-down in T+20m."
   },
   {
     "timestamp": "2025-01-05T15:20:00",
     "time_label": "15:20",
     "horizon": "5min",
+    "plant_id": "SOL_PAVAGADA",
     "learning_signal": "PRE_EVENT_RAMP_WARNING_LEARNED",
     "action_code": "EVENT_MODE_ON",
-    "plain_language_learning": "Increase ramp sensitivity; keep nowcast on event mode until actual stabilizes.",
-    "why_it_happened": "Event probability crossed warning level before actual ramp."
+    "event_title": "Solar Ramp Execution",
+    "explanation": "Ramp detected. Shifting PV model to high-sensitivity event mode.",
+    "why_it_happened": "Observed power drop exceeded 15 MW/min threshold."
+  },
+  {
+    "timestamp": "2025-01-05T15:30:00",
+    "time_label": "15:30",
+    "horizon": "5min",
+    "plant_id": "WND_GADAG",
+    "learning_signal": "WIND_RAMP_LEARNED",
+    "action_code": "STEEP_ADJUST",
+    "event_title": "Coastal Wind Ramp-Down",
+    "explanation": "Wind speed dropped from 11m/s to 4m/s in 10 minutes. Adjusting persistence sensitivity.",
+    "why_it_happened": "Micro-metrological front passed through the Gadag cluster."
   },
   {
     "timestamp": "2025-01-05T17:15:00",
     "time_label": "17:15",
     "horizon": "5min",
+    "plant_id": "SOL_PAVAGADA",
     "learning_signal": "NORMAL_LEARNING",
     "action_code": "NO_ACTION",
-    "plain_language_learning": "Continue normal nowcast update.",
-    "why_it_happened": "Normal monitoring state changed."
+    "event_title": "Solar Recovery Stabilized",
+    "explanation": "Post-cloud recovery completed. Returning to baseline PV physical parameters.",
+    "why_it_happened": "Error variance returned to < 3% for 15 consecutive minutes."
   },
   {
     "timestamp": "2025-01-05T14:30:00",
     "time_label": "14:30",
     "horizon": "15min",
+    "plant_id": "SOL_PAVAGADA",
     "learning_signal": "NORMAL_LEARNING",
     "action_code": "NO_ACTION",
-    "plain_language_learning": "Continue intra-hour monitoring.",
-    "why_it_happened": "Normal monitoring state changed."
+    "event_title": "Solar Dispatch Alignment",
+    "explanation": "Intra-hour dispatch block remains within ±2% of forecast.",
+    "why_it_happened": "High sky-clarity index maintained."
   },
   {
     "timestamp": "2025-01-05T15:20:00",
     "time_label": "15:20",
     "horizon": "15min",
+    "plant_id": "SOL_PAVAGADA",
     "learning_signal": "PRE_EVENT_RAMP_WARNING_LEARNED",
     "action_code": "WIDEN_AND_UPDATE",
-    "plain_language_learning": "Widen intra-hour uncertainty and update dispatch-block residual.",
-    "why_it_happened": "Event probability crossed warning level before actual ramp."
+    "event_title": "PV Dispatch Correction",
+    "explanation": "Detected persistent under-performance vs schedule. Widening P10-P90 bands.",
+    "why_it_happened": "Cloud cover persistence was longer than initially estimated."
   },
   {
-    "timestamp": "2025-01-05T17:15:00",
-    "time_label": "17:15",
+    "timestamp": "2025-01-05T15:45:00",
+    "time_label": "15:45",
     "horizon": "15min",
-    "learning_signal": "NORMAL_LEARNING",
-    "action_code": "NO_ACTION",
-    "plain_language_learning": "Continue intra-hour monitoring.",
-    "why_it_happened": "Normal monitoring state changed."
-  },
-  {
-    "timestamp": "2025-01-05T14:30:00",
-    "time_label": "14:30",
-    "horizon": "2hour",
-    "learning_signal": "NORMAL_LEARNING",
-    "action_code": "NO_ACTION",
-    "plain_language_learning": "Intraday model healthy.",
-    "why_it_happened": "Normal monitoring state changed."
-  },
-  {
-    "timestamp": "2025-01-05T14:30:00",
-    "time_label": "14:30",
-    "horizon": "40hour",
-    "learning_signal": "NORMAL_LEARNING",
-    "action_code": "NO_ACTION",
-    "plain_language_learning": "Day-ahead calibration acceptable.",
-    "why_it_happened": "Normal monitoring state changed."
-  },
-  {
-    "timestamp": "2025-01-05T14:30:00",
-    "time_label": "14:30",
-    "horizon": "8day",
-    "learning_signal": "NORMAL_LEARNING",
-    "action_code": "NO_ACTION",
-    "plain_language_learning": "Weekly planning regime remains usable.",
-    "why_it_happened": "Normal monitoring state changed."
+    "plant_id": "WND_GADAG",
+    "learning_signal": "WAKE_EFFECT_OPTIMIZED",
+    "action_code": "WEIGHT_REFRESH",
+    "event_title": "Dynamic Wake Calibration",
+    "explanation": "Wind direction shift detected. Updating downstream wake loss coefficients.",
+    "why_it_happened": "Shift from 270° to 285° changed turbine-to-turbine shielding patterns."
   }
 ]

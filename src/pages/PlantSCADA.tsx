@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SimulationState } from "../App";
 
 export default function PlantSCADA({ simState }: { simState: SimulationState }) {
-  const pavagada = simState.plants.find(p => p.plant_id === "PAV");
+  const pavagada = simState.plants.find((p: any) => p.plant_id === "PAV");
 
   const tags = [
     { name: "PLANT.ACTUAL_MW", val: pavagada?.actual_mw.toFixed(2), unit: "MW", lat: "2s", stat: "GOOD", src: "KSPDCL" },
@@ -34,7 +34,7 @@ export default function PlantSCADA({ simState }: { simState: SimulationState }) 
                 </tr>
               </thead>
               <tbody>
-                {tags.map((t, i) => (
+                {tags.map((t: any, i: any) => (
                   <tr key={i} className="border-b border-slate-800 text-slate-300">
                     <td className="px-4 py-3 font-mono">{t.name}</td>
                     <td className="px-4 py-3 font-bold">{t.val}</td>

@@ -10,8 +10,8 @@ export default function ForecastDeviation({ simState }: { simState: SimulationSt
   const [horizon, setHorizon] = useState("2hour");
   const [llmInsight, setLlmInsight] = useState("Loading insight...");
 
-  const targetPlant = simState.plants.find(p => p.plant_id === "PAV");
-  const activeForecast = simState.forecasts.find(f => f.asset_id === "PAV" && f.horizon === horizon);
+  const targetPlant = simState.plants.find((p: any) => p.plant_id === "PAV");
+  const activeForecast = simState.forecasts.find((f: any) => f.asset_id === "PAV" && f.horizon === horizon);
 
   useEffect(() => {
     if (targetPlant && activeForecast && activeForecast.points.length > 0) {
@@ -27,7 +27,7 @@ export default function ForecastDeviation({ simState }: { simState: SimulationSt
     }
   }, [horizon, targetPlant?.actual_mw, activeForecast]);
 
-  const mockHistory = activeForecast ? activeForecast.points.map(pt => ({
+  const mockHistory = activeForecast ? activeForecast.points.map((pt: any) => ({
     time: `T+${pt.offset_min}m`,
     p90: pt.p90,
     p50: pt.p50,
