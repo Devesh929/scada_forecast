@@ -1,0 +1,965 @@
+{
+  "schema_version": "1.0",
+  "horizon_definitions": {
+    "5min": {
+      "business_name": "Real-time nowcast / control-room forecast",
+      "usage": "Immediate ramp warning, SCADA response, operator action in the next few minutes.",
+      "technique_short": "Persistence + ramp-rate correction",
+      "technique_full": "Naive persistence baseline corrected by recent ramp-rate, SCADA quality gate, and live resource driver movement.",
+      "why_this_technique": "At 5 minutes, the latest actual power and ramp-rate are usually more useful than a complex long-horizon weather model.",
+      "inputs": [
+        "actual_mw",
+        "possible_power_mw",
+        "ramp_rate_mw_min",
+        "scada_quality",
+        "poa_wm2 / hub_height_wind_speed_ms",
+        "local_limit_mw"
+      ],
+      "primary_metrics": [
+        "rolling_nMAE",
+        "ramp_hit_rate",
+        "lead_time_minutes",
+        "phase_error_minutes",
+        "SCADA freshness"
+      ],
+      "visuals": [
+        "live replay fan chart",
+        "ramp marker timeline",
+        "SCADA quality strip"
+      ],
+      "update_frequency": "Every 5 minutes",
+      "model_artifact": "PV_NOWCAST_RAMP_V2"
+    },
+    "15min": {
+      "business_name": "Intra-hour dispatch correction",
+      "usage": "Correct the current dispatch block and detect fast intra-hour ramps.",
+      "technique_short": "Persistence + physical blend",
+      "technique_full": "Blend latest SCADA persistence with physical resource-to-power conversion and short residual correction.",
+      "why_this_technique": "At 15 minutes, both recent actual power and near-term resource movement matter.",
+      "inputs": [
+        "actual_mw",
+        "recent_residual",
+        "poa_wm2 / wind_speed",
+        "cloud_obstruction_probability",
+        "availability_pct"
+      ],
+      "primary_metrics": [
+        "nMAE",
+        "coverage",
+        "ramp_hit_rate",
+        "false_alarm_rate",
+        "amplitude_error_mw"
+      ],
+      "visuals": [
+        "fan chart",
+        "driver chart",
+        "ramp small multiples"
+      ],
+      "update_frequency": "Every 5 or 15 minutes",
+      "model_artifact": "PV_INTRA_BLOCK_BLEND_V2"
+    },
+    "2hour": {
+      "business_name": "Intraday forecast / reserve planning",
+      "usage": "Support intraday schedule revision, reserve planning, and ramp-risk decisions later today.",
+      "technique_short": "Physical weather-to-power + Gaussian residual",
+      "technique_full": "Convert short-horizon weather/resource drivers to power using physical PV/wind model, then apply learned residual distribution and event widening.",
+      "why_this_technique": "At 2 hours, weather/resource drivers become more important than pure persistence.",
+      "inputs": [
+        "NWP short horizon",
+        "SCADA history",
+        "POA/GHI or wind speed",
+        "availability",
+        "local_limit_mw",
+        "historical residual regime"
+      ],
+      "primary_metrics": [
+        "RMSE",
+        "nMAE",
+        "P10-P90 coverage",
+        "bias",
+        "ramp_amplitude_error"
+      ],
+      "visuals": [
+        "fan chart",
+        "residual distribution",
+        "event timeline",
+        "driver-vs-power chart"
+      ],
+      "update_frequency": "Every 15 minutes",
+      "model_artifact": "PV_PHYSICAL_GAUSS_RESIDUAL_V2"
+    },
+    "40hour": {
+      "business_name": "Day-ahead probabilistic forecast",
+      "usage": "Day-ahead schedule, commitment, grid planning, and uncertainty communication.",
+      "technique_short": "NWP ensemble weather-to-power + quantile calibration",
+      "technique_full": "Use ensemble weather forecasts, physical conversion, quantile mapping, historical calibration and reliability checks.",
+      "why_this_technique": "Day-ahead uncertainty is dominated by weather forecast uncertainty, so ensemble calibration is more relevant.",
+      "inputs": [
+        "NWP ensemble members",
+        "plant physical model",
+        "historical calibration",
+        "hour-of-day",
+        "seasonal regime"
+      ],
+      "primary_metrics": [
+        "MAE",
+        "RMSE",
+        "bias",
+        "reliability",
+        "rank_histogram",
+        "coverage"
+      ],
+      "visuals": [
+        "reliability diagram",
+        "rank histogram",
+        "daily fan chart",
+        "bias by hour"
+      ],
+      "update_frequency": "NWP issue cycle / hourly refresh if available",
+      "model_artifact": "PV_DA_ENSEMBLE_QMAP_V2"
+    },
+    "8day": {
+      "business_name": "Medium-range planning outlook",
+      "usage": "Weekly planning, low-renewable risk windows, maintenance planning and reserve outlook.",
+      "technique_short": "Scenario ensemble + analog days + climatology band",
+      "technique_full": "Generate scenario bands from medium-range ensemble, match historical analog days, and calibrate with climatology/regime statistics.",
+      "why_this_technique": "At 8 days, exact minute-level output is unrealistic; broad regime and scenario risk are more useful.",
+      "inputs": [
+        "medium-range ensemble",
+        "seasonal regime",
+        "historical analog days",
+        "availability plan",
+        "daily summaries"
+      ],
+      "primary_metrics": [
+        "regime_accuracy",
+        "low_generation_risk_hit",
+        "weekly_coverage",
+        "scenario_spread",
+        "bias"
+      ],
+      "visuals": [
+        "weekly scenario band",
+        "regime calendar",
+        "risk heatmap"
+      ],
+      "update_frequency": "Daily",
+      "model_artifact": "PV_WEEKLY_SCENARIO_ANALOG_V1"
+    }
+  },
+  "levels": [
+    {
+      "level_key": "grid",
+      "level_name": "Grid / Pooling Station Level",
+      "description": "Aggregate view at Pavagada pooling station or grid node. Best for grid scheduling, deviation and reserve planning.",
+      "aggregation_logic": "Sum actual_mw, possible_power_mw, schedule and forecast quantiles across hubs; apply correlation-aware widening for P10/P90.",
+      "display_name_template": "Pavagada Pooling Station"
+    },
+    {
+      "level_key": "plant",
+      "level_name": "Plant Level",
+      "description": "Whole plant view used by owner/operator for total output and business objective tracking.",
+      "aggregation_logic": "Sum all hubs and compare with plant schedule/local limit.",
+      "display_name_template": "Pavagada Solar Park"
+    },
+    {
+      "level_key": "hub",
+      "level_name": "Hub / Segment Level",
+      "description": "Segment-level view to isolate which part of the plant is causing ramp, curtailment, data-quality or equipment issue.",
+      "aggregation_logic": "Sum the 5 blocks inside the selected hub; use hub-specific sensor and event metadata.",
+      "display_name_template": "Hub {hub_id}"
+    },
+    {
+      "level_key": "block",
+      "level_name": "Block Level",
+      "description": "Granular block-level view for diagnosing inverter/sensor/local power issues.",
+      "aggregation_logic": "Use direct block SCADA, block sensors and block forecast contribution.",
+      "display_name_template": "Block {block_id}"
+    }
+  ],
+  "assets": [
+    {
+      "asset_level": "grid",
+      "asset_id": "GRID_PAVAGADA_220KV",
+      "display_name": "Pavagada 220kV Pooling Station",
+      "parent_id": null,
+      "capacity_mw": 2050,
+      "layout_hint": "top aggregate"
+    },
+    {
+      "asset_level": "plant",
+      "asset_id": "SOL_PAVAGADA",
+      "display_name": "Pavagada Solar Park",
+      "parent_id": "GRID_PAVAGADA_220KV",
+      "capacity_mw": 2050,
+      "layout_hint": "plant aggregate"
+    },
+    {
+      "asset_level": "hub",
+      "asset_id": "PAV_HUB_1",
+      "display_name": "Hub / Segment 1",
+      "parent_id": "SOL_PAVAGADA",
+      "capacity_mw": 250,
+      "layout_hint": "row 1"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S1_B01",
+      "display_name": "Hub 1 Block 1",
+      "parent_id": "PAV_HUB_1",
+      "capacity_mw": 50,
+      "layout_hint": "row 1, col 1"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S1_B02",
+      "display_name": "Hub 1 Block 2",
+      "parent_id": "PAV_HUB_1",
+      "capacity_mw": 50,
+      "layout_hint": "row 1, col 2"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S1_B03",
+      "display_name": "Hub 1 Block 3",
+      "parent_id": "PAV_HUB_1",
+      "capacity_mw": 50,
+      "layout_hint": "row 1, col 3"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S1_B04",
+      "display_name": "Hub 1 Block 4",
+      "parent_id": "PAV_HUB_1",
+      "capacity_mw": 50,
+      "layout_hint": "row 1, col 4"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S1_B05",
+      "display_name": "Hub 1 Block 5",
+      "parent_id": "PAV_HUB_1",
+      "capacity_mw": 50,
+      "layout_hint": "row 1, col 5"
+    },
+    {
+      "asset_level": "hub",
+      "asset_id": "PAV_HUB_2",
+      "display_name": "Hub / Segment 2",
+      "parent_id": "SOL_PAVAGADA",
+      "capacity_mw": 250,
+      "layout_hint": "row 2"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S2_B01",
+      "display_name": "Hub 2 Block 1",
+      "parent_id": "PAV_HUB_2",
+      "capacity_mw": 50,
+      "layout_hint": "row 2, col 1"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S2_B02",
+      "display_name": "Hub 2 Block 2",
+      "parent_id": "PAV_HUB_2",
+      "capacity_mw": 50,
+      "layout_hint": "row 2, col 2"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S2_B03",
+      "display_name": "Hub 2 Block 3",
+      "parent_id": "PAV_HUB_2",
+      "capacity_mw": 50,
+      "layout_hint": "row 2, col 3"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S2_B04",
+      "display_name": "Hub 2 Block 4",
+      "parent_id": "PAV_HUB_2",
+      "capacity_mw": 50,
+      "layout_hint": "row 2, col 4"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S2_B05",
+      "display_name": "Hub 2 Block 5",
+      "parent_id": "PAV_HUB_2",
+      "capacity_mw": 50,
+      "layout_hint": "row 2, col 5"
+    },
+    {
+      "asset_level": "hub",
+      "asset_id": "PAV_HUB_3",
+      "display_name": "Hub / Segment 3",
+      "parent_id": "SOL_PAVAGADA",
+      "capacity_mw": 250,
+      "layout_hint": "row 3"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S3_B01",
+      "display_name": "Hub 3 Block 1",
+      "parent_id": "PAV_HUB_3",
+      "capacity_mw": 50,
+      "layout_hint": "row 3, col 1"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S3_B02",
+      "display_name": "Hub 3 Block 2",
+      "parent_id": "PAV_HUB_3",
+      "capacity_mw": 50,
+      "layout_hint": "row 3, col 2"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S3_B03",
+      "display_name": "Hub 3 Block 3",
+      "parent_id": "PAV_HUB_3",
+      "capacity_mw": 50,
+      "layout_hint": "row 3, col 3"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S3_B04",
+      "display_name": "Hub 3 Block 4",
+      "parent_id": "PAV_HUB_3",
+      "capacity_mw": 50,
+      "layout_hint": "row 3, col 4"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S3_B05",
+      "display_name": "Hub 3 Block 5",
+      "parent_id": "PAV_HUB_3",
+      "capacity_mw": 50,
+      "layout_hint": "row 3, col 5"
+    },
+    {
+      "asset_level": "hub",
+      "asset_id": "PAV_HUB_4",
+      "display_name": "Hub / Segment 4",
+      "parent_id": "SOL_PAVAGADA",
+      "capacity_mw": 250,
+      "layout_hint": "row 4"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S4_B01",
+      "display_name": "Hub 4 Block 1",
+      "parent_id": "PAV_HUB_4",
+      "capacity_mw": 50,
+      "layout_hint": "row 4, col 1"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S4_B02",
+      "display_name": "Hub 4 Block 2",
+      "parent_id": "PAV_HUB_4",
+      "capacity_mw": 50,
+      "layout_hint": "row 4, col 2"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S4_B03",
+      "display_name": "Hub 4 Block 3",
+      "parent_id": "PAV_HUB_4",
+      "capacity_mw": 50,
+      "layout_hint": "row 4, col 3"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S4_B04",
+      "display_name": "Hub 4 Block 4",
+      "parent_id": "PAV_HUB_4",
+      "capacity_mw": 50,
+      "layout_hint": "row 4, col 4"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S4_B05",
+      "display_name": "Hub 4 Block 5",
+      "parent_id": "PAV_HUB_4",
+      "capacity_mw": 50,
+      "layout_hint": "row 4, col 5"
+    },
+    {
+      "asset_level": "hub",
+      "asset_id": "PAV_HUB_5",
+      "display_name": "Hub / Segment 5",
+      "parent_id": "SOL_PAVAGADA",
+      "capacity_mw": 250,
+      "layout_hint": "row 5"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S5_B01",
+      "display_name": "Hub 5 Block 1",
+      "parent_id": "PAV_HUB_5",
+      "capacity_mw": 50,
+      "layout_hint": "row 5, col 1"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S5_B02",
+      "display_name": "Hub 5 Block 2",
+      "parent_id": "PAV_HUB_5",
+      "capacity_mw": 50,
+      "layout_hint": "row 5, col 2"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S5_B03",
+      "display_name": "Hub 5 Block 3",
+      "parent_id": "PAV_HUB_5",
+      "capacity_mw": 50,
+      "layout_hint": "row 5, col 3"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S5_B04",
+      "display_name": "Hub 5 Block 4",
+      "parent_id": "PAV_HUB_5",
+      "capacity_mw": 50,
+      "layout_hint": "row 5, col 4"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S5_B05",
+      "display_name": "Hub 5 Block 5",
+      "parent_id": "PAV_HUB_5",
+      "capacity_mw": 50,
+      "layout_hint": "row 5, col 5"
+    },
+    {
+      "asset_level": "hub",
+      "asset_id": "PAV_HUB_6",
+      "display_name": "Hub / Segment 6",
+      "parent_id": "SOL_PAVAGADA",
+      "capacity_mw": 250,
+      "layout_hint": "row 6"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S6_B01",
+      "display_name": "Hub 6 Block 1",
+      "parent_id": "PAV_HUB_6",
+      "capacity_mw": 50,
+      "layout_hint": "row 6, col 1"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S6_B02",
+      "display_name": "Hub 6 Block 2",
+      "parent_id": "PAV_HUB_6",
+      "capacity_mw": 50,
+      "layout_hint": "row 6, col 2"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S6_B03",
+      "display_name": "Hub 6 Block 3",
+      "parent_id": "PAV_HUB_6",
+      "capacity_mw": 50,
+      "layout_hint": "row 6, col 3"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S6_B04",
+      "display_name": "Hub 6 Block 4",
+      "parent_id": "PAV_HUB_6",
+      "capacity_mw": 50,
+      "layout_hint": "row 6, col 4"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S6_B05",
+      "display_name": "Hub 6 Block 5",
+      "parent_id": "PAV_HUB_6",
+      "capacity_mw": 50,
+      "layout_hint": "row 6, col 5"
+    },
+    {
+      "asset_level": "hub",
+      "asset_id": "PAV_HUB_7",
+      "display_name": "Hub / Segment 7",
+      "parent_id": "SOL_PAVAGADA",
+      "capacity_mw": 250,
+      "layout_hint": "row 7"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S7_B01",
+      "display_name": "Hub 7 Block 1",
+      "parent_id": "PAV_HUB_7",
+      "capacity_mw": 50,
+      "layout_hint": "row 7, col 1"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S7_B02",
+      "display_name": "Hub 7 Block 2",
+      "parent_id": "PAV_HUB_7",
+      "capacity_mw": 50,
+      "layout_hint": "row 7, col 2"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S7_B03",
+      "display_name": "Hub 7 Block 3",
+      "parent_id": "PAV_HUB_7",
+      "capacity_mw": 50,
+      "layout_hint": "row 7, col 3"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S7_B04",
+      "display_name": "Hub 7 Block 4",
+      "parent_id": "PAV_HUB_7",
+      "capacity_mw": 50,
+      "layout_hint": "row 7, col 4"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S7_B05",
+      "display_name": "Hub 7 Block 5",
+      "parent_id": "PAV_HUB_7",
+      "capacity_mw": 50,
+      "layout_hint": "row 7, col 5"
+    },
+    {
+      "asset_level": "hub",
+      "asset_id": "PAV_HUB_8",
+      "display_name": "Hub / Segment 8",
+      "parent_id": "SOL_PAVAGADA",
+      "capacity_mw": 300,
+      "layout_hint": "row 8"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S8_B01",
+      "display_name": "Hub 8 Block 1",
+      "parent_id": "PAV_HUB_8",
+      "capacity_mw": 50,
+      "layout_hint": "row 8, col 1"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S8_B02",
+      "display_name": "Hub 8 Block 2",
+      "parent_id": "PAV_HUB_8",
+      "capacity_mw": 50,
+      "layout_hint": "row 8, col 2"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S8_B03",
+      "display_name": "Hub 8 Block 3",
+      "parent_id": "PAV_HUB_8",
+      "capacity_mw": 50,
+      "layout_hint": "row 8, col 3"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S8_B04",
+      "display_name": "Hub 8 Block 4",
+      "parent_id": "PAV_HUB_8",
+      "capacity_mw": 50,
+      "layout_hint": "row 8, col 4"
+    },
+    {
+      "asset_level": "block",
+      "asset_id": "PAV_S8_B05",
+      "display_name": "Hub 8 Block 5",
+      "parent_id": "PAV_HUB_8",
+      "capacity_mw": 100,
+      "layout_hint": "row 8, col 5"
+    }
+  ],
+  "model_selection_records": [
+    {
+      "asset_level": "grid",
+      "asset_id": "GRID_PAVAGADA_220KV",
+      "display_name": "Pavagada 220kV Pooling Station",
+      "parent_id": null,
+      "capacity_mw": 2050,
+      "horizon": "5min",
+      "business_name": "Real-time nowcast / control-room forecast",
+      "usage": "Immediate ramp warning, SCADA response, operator action in the next few minutes.",
+      "technique_short": "Persistence + ramp-rate correction",
+      "technique_full": "Naive persistence baseline corrected by recent ramp-rate, SCADA quality gate, and live resource driver movement.",
+      "level_adjustment": "Aggregate model: forecast is composed from hub/block forecasts and then reconciled at plant/grid level.",
+      "aggregation_method": "bottom_up_sum_plus_correlation_adjusted_uncertainty",
+      "model_artifact": "PV_NOWCAST_RAMP_V2",
+      "inputs": [
+        "actual_mw",
+        "possible_power_mw",
+        "ramp_rate_mw_min",
+        "scada_quality",
+        "poa_wm2 / hub_height_wind_speed_ms",
+        "local_limit_mw"
+      ],
+      "primary_metrics": [
+        "rolling_nMAE",
+        "ramp_hit_rate",
+        "lead_time_minutes",
+        "phase_error_minutes",
+        "SCADA freshness"
+      ],
+      "visuals": [
+        "live replay fan chart",
+        "ramp marker timeline",
+        "SCADA quality strip"
+      ],
+      "update_frequency": "Every 5 minutes",
+      "plain_language_explanation": "At Pavagada 220kV Pooling Station, use aggregated Persistence + ramp-rate correction because operator decision is based on total output.",
+      "why_this_technique": "At 5 minutes, the latest actual power and ramp-rate are usually more useful than a complex long-horizon weather model."
+    },
+    {
+      "asset_level": "grid",
+      "asset_id": "GRID_PAVAGADA_220KV",
+      "display_name": "Pavagada 220kV Pooling Station",
+      "parent_id": null,
+      "capacity_mw": 2050,
+      "horizon": "15min",
+      "business_name": "Intra-hour dispatch correction",
+      "usage": "Correct the current dispatch block and detect fast intra-hour ramps.",
+      "technique_short": "Persistence + physical blend",
+      "technique_full": "Blend latest SCADA persistence with physical resource-to-power conversion and short residual correction.",
+      "level_adjustment": "Aggregate model: forecast is composed from hub/block forecasts and then reconciled at plant/grid level.",
+      "aggregation_method": "bottom_up_sum_plus_correlation_adjusted_uncertainty",
+      "model_artifact": "PV_INTRA_BLOCK_BLEND_V2",
+      "inputs": [
+        "actual_mw",
+        "recent_residual",
+        "poa_wm2 / wind_speed",
+        "cloud_obstruction_probability",
+        "availability_pct"
+      ],
+      "primary_metrics": [
+        "nMAE",
+        "coverage",
+        "ramp_hit_rate",
+        "false_alarm_rate",
+        "amplitude_error_mw"
+      ],
+      "visuals": [
+        "fan chart",
+        "driver chart",
+        "ramp small multiples"
+      ],
+      "update_frequency": "Every 5 or 15 minutes",
+      "plain_language_explanation": "At Pavagada 220kV Pooling Station, use aggregated Persistence + physical blend because operator decision is based on total output.",
+      "why_this_technique": "At 15 minutes, both recent actual power and near-term resource movement matter."
+    },
+    {
+      "asset_level": "grid",
+      "asset_id": "GRID_PAVAGADA_220KV",
+      "display_name": "Pavagada 220kV Pooling Station",
+      "parent_id": null,
+      "capacity_mw": 2050,
+      "horizon": "2hour",
+      "business_name": "Intraday forecast / reserve planning",
+      "usage": "Support intraday schedule revision, reserve planning, and ramp-risk decisions later today.",
+      "technique_short": "Physical weather-to-power + Gaussian residual",
+      "technique_full": "Convert short-horizon weather/resource drivers to power using physical PV/wind model, then apply learned residual distribution and event widening.",
+      "level_adjustment": "Aggregate model: forecast is composed from hub/block forecasts and then reconciled at plant/grid level.",
+      "aggregation_method": "bottom_up_sum_plus_correlation_adjusted_uncertainty",
+      "model_artifact": "PV_PHYSICAL_GAUSS_RESIDUAL_V2",
+      "inputs": [
+        "NWP short horizon",
+        "SCADA history",
+        "POA/GHI or wind speed",
+        "availability",
+        "local_limit_mw",
+        "historical residual regime"
+      ],
+      "primary_metrics": [
+        "RMSE",
+        "nMAE",
+        "P10-P90 coverage",
+        "bias",
+        "ramp_amplitude_error"
+      ],
+      "visuals": [
+        "fan chart",
+        "residual distribution",
+        "event timeline",
+        "driver-vs-power chart"
+      ],
+      "update_frequency": "Every 15 minutes",
+      "plain_language_explanation": "At Pavagada 220kV Pooling Station, use aggregated Physical weather-to-power + Gaussian residual because operator decision is based on total output.",
+      "why_this_technique": "At 2 hours, weather/resource drivers become more important than pure persistence."
+    },
+    {
+      "asset_level": "grid",
+      "asset_id": "GRID_PAVAGADA_220KV",
+      "display_name": "Pavagada 220kV Pooling Station",
+      "parent_id": null,
+      "capacity_mw": 2050,
+      "horizon": "40hour",
+      "business_name": "Day-ahead probabilistic forecast",
+      "usage": "Day-ahead schedule, commitment, grid planning, and uncertainty communication.",
+      "technique_short": "NWP ensemble weather-to-power + quantile calibration",
+      "technique_full": "Use ensemble weather forecasts, physical conversion, quantile mapping, historical calibration and reliability checks.",
+      "level_adjustment": "Aggregate model: forecast is composed from hub/block forecasts and then reconciled at plant/grid level.",
+      "aggregation_method": "bottom_up_sum_plus_correlation_adjusted_uncertainty",
+      "model_artifact": "PV_DA_ENSEMBLE_QMAP_V2",
+      "inputs": [
+        "NWP ensemble members",
+        "plant physical model",
+        "historical calibration",
+        "hour-of-day",
+        "seasonal regime"
+      ],
+      "primary_metrics": [
+        "MAE",
+        "RMSE",
+        "bias",
+        "reliability",
+        "rank_histogram",
+        "coverage"
+      ],
+      "visuals": [
+        "reliability diagram",
+        "rank histogram",
+        "daily fan chart",
+        "bias by hour"
+      ],
+      "update_frequency": "NWP issue cycle / hourly refresh if available",
+      "plain_language_explanation": "At Pavagada 220kV Pooling Station, use aggregated NWP ensemble weather-to-power + quantile calibration because operator decision is based on total output.",
+      "why_this_technique": "Day-ahead uncertainty is dominated by weather forecast uncertainty, so ensemble calibration is more relevant."
+    },
+    {
+      "asset_level": "grid",
+      "asset_id": "GRID_PAVAGADA_220KV",
+      "display_name": "Pavagada 220kV Pooling Station",
+      "parent_id": null,
+      "capacity_mw": 2050,
+      "horizon": "8day",
+      "business_name": "Medium-range planning outlook",
+      "usage": "Weekly planning, low-renewable risk windows, maintenance planning and reserve outlook.",
+      "technique_short": "Scenario ensemble + analog days + climatology band",
+      "technique_full": "Generate scenario bands from medium-range ensemble, match historical analog days, and calibrate with climatology/regime statistics.",
+      "level_adjustment": "Aggregate model: forecast is composed from hub/block forecasts and then reconciled at plant/grid level.",
+      "aggregation_method": "bottom_up_sum_plus_correlation_adjusted_uncertainty",
+      "model_artifact": "PV_WEEKLY_SCENARIO_ANALOG_V1",
+      "inputs": [
+        "medium-range ensemble",
+        "seasonal regime",
+        "historical analog days",
+        "availability plan",
+        "daily summaries"
+      ],
+      "primary_metrics": [
+        "regime_accuracy",
+        "low_generation_risk_hit",
+        "weekly_coverage",
+        "scenario_spread",
+        "bias"
+      ],
+      "visuals": [
+        "weekly scenario band",
+        "regime calendar",
+        "risk heatmap"
+      ],
+      "update_frequency": "Daily",
+      "plain_language_explanation": "At Pavagada 220kV Pooling Station, use aggregated Scenario ensemble + analog days + climatology band because operator decision is based on total output.",
+      "why_this_technique": "At 8 days, exact minute-level output is unrealistic; broad regime and scenario risk are more useful."
+    },
+    {
+      "asset_level": "plant",
+      "asset_id": "SOL_PAVAGADA",
+      "display_name": "Pavagada Solar Park",
+      "parent_id": "GRID_PAVAGADA_220KV",
+      "capacity_mw": 2050,
+      "horizon": "5min",
+      "business_name": "Real-time nowcast / control-room forecast",
+      "usage": "Immediate ramp warning, SCADA response, operator action in the next few minutes.",
+      "technique_short": "Persistence + ramp-rate correction",
+      "technique_full": "Naive persistence baseline corrected by recent ramp-rate, SCADA quality gate, and live resource driver movement.",
+      "level_adjustment": "Aggregate model: forecast is composed from hub/block forecasts and then reconciled at plant/grid level.",
+      "aggregation_method": "bottom_up_sum_plus_correlation_adjusted_uncertainty",
+      "model_artifact": "PV_NOWCAST_RAMP_V2",
+      "inputs": [
+        "actual_mw",
+        "possible_power_mw",
+        "ramp_rate_mw_min",
+        "scada_quality",
+        "poa_wm2 / hub_height_wind_speed_ms",
+        "local_limit_mw"
+      ],
+      "primary_metrics": [
+        "rolling_nMAE",
+        "ramp_hit_rate",
+        "lead_time_minutes",
+        "phase_error_minutes",
+        "SCADA freshness"
+      ],
+      "visuals": [
+        "live replay fan chart",
+        "ramp marker timeline",
+        "SCADA quality strip"
+      ],
+      "update_frequency": "Every 5 minutes",
+      "plain_language_explanation": "At Pavagada Solar Park, use aggregated Persistence + ramp-rate correction because operator decision is based on total output.",
+      "why_this_technique": "At 5 minutes, the latest actual power and ramp-rate are usually more useful than a complex long-horizon weather model."
+    },
+    {
+      "asset_level": "plant",
+      "asset_id": "SOL_PAVAGADA",
+      "display_name": "Pavagada Solar Park",
+      "parent_id": "GRID_PAVAGADA_220KV",
+      "capacity_mw": 2050,
+      "horizon": "15min",
+      "business_name": "Intra-hour dispatch correction",
+      "usage": "Correct the current dispatch block and detect fast intra-hour ramps.",
+      "technique_short": "Persistence + physical blend",
+      "technique_full": "Blend latest SCADA persistence with physical resource-to-power conversion and short residual correction.",
+      "level_adjustment": "Aggregate model: forecast is composed from hub/block forecasts and then reconciled at plant/grid level.",
+      "aggregation_method": "bottom_up_sum_plus_correlation_adjusted_uncertainty",
+      "model_artifact": "PV_INTRA_BLOCK_BLEND_V2",
+      "inputs": [
+        "actual_mw",
+        "recent_residual",
+        "poa_wm2 / wind_speed",
+        "cloud_obstruction_probability",
+        "availability_pct"
+      ],
+      "primary_metrics": [
+        "nMAE",
+        "coverage",
+        "ramp_hit_rate",
+        "false_alarm_rate",
+        "amplitude_error_mw"
+      ],
+      "visuals": [
+        "fan chart",
+        "driver chart",
+        "ramp small multiples"
+      ],
+      "update_frequency": "Every 5 or 15 minutes",
+      "plain_language_explanation": "At Pavagada Solar Park, use aggregated Persistence + physical blend because operator decision is based on total output.",
+      "why_this_technique": "At 15 minutes, both recent actual power and near-term resource movement matter."
+    },
+    {
+      "asset_level": "plant",
+      "asset_id": "SOL_PAVAGADA",
+      "display_name": "Pavagada Solar Park",
+      "parent_id": "GRID_PAVAGADA_220KV",
+      "capacity_mw": 2050,
+      "horizon": "2hour",
+      "business_name": "Intraday forecast / reserve planning",
+      "usage": "Support intraday schedule revision, reserve planning, and ramp-risk decisions later today.",
+      "technique_short": "Physical weather-to-power + Gaussian residual",
+      "technique_full": "Convert short-horizon weather/resource drivers to power using physical PV/wind model, then apply learned residual distribution and event widening.",
+      "level_adjustment": "Aggregate model: forecast is composed from hub/block forecasts and then reconciled at plant/grid level.",
+      "aggregation_method": "bottom_up_sum_plus_correlation_adjusted_uncertainty",
+      "model_artifact": "PV_PHYSICAL_GAUSS_RESIDUAL_V2",
+      "inputs": [
+        "NWP short horizon",
+        "SCADA history",
+        "POA/GHI or wind speed",
+        "availability",
+        "local_limit_mw",
+        "historical residual regime"
+      ],
+      "primary_metrics": [
+        "RMSE",
+        "nMAE",
+        "P10-P90 coverage",
+        "bias",
+        "ramp_amplitude_error"
+      ],
+      "visuals": [
+        "fan chart",
+        "residual distribution",
+        "event timeline",
+        "driver-vs-power chart"
+      ],
+      "update_frequency": "Every 15 minutes",
+      "plain_language_explanation": "At Pavagada Solar Park, use aggregated Physical weather-to-power + Gaussian residual because operator decision is based on total output.",
+      "why_this_technique": "At 2 hours, weather/resource drivers become more important than pure persistence."
+    },
+    {
+      "asset_level": "plant",
+      "asset_id": "SOL_PAVAGADA",
+      "display_name": "Pavagada Solar Park",
+      "parent_id": "GRID_PAVAGADA_220KV",
+      "capacity_mw": 2050,
+      "horizon": "40hour",
+      "business_name": "Day-ahead probabilistic forecast",
+      "usage": "Day-ahead schedule, commitment, grid planning, and uncertainty communication.",
+      "technique_short": "NWP ensemble weather-to-power + quantile calibration",
+      "technique_full": "Use ensemble weather forecasts, physical conversion, quantile mapping, historical calibration and reliability checks.",
+      "level_adjustment": "Aggregate model: forecast is composed from hub/block forecasts and then reconciled at plant/grid level.",
+      "aggregation_method": "bottom_up_sum_plus_correlation_adjusted_uncertainty",
+      "model_artifact": "PV_DA_ENSEMBLE_QMAP_V2",
+      "inputs": [
+        "NWP ensemble members",
+        "plant physical model",
+        "historical calibration",
+        "hour-of-day",
+        "seasonal regime"
+      ],
+      "primary_metrics": [
+        "MAE",
+        "RMSE",
+        "bias",
+        "reliability",
+        "rank_histogram",
+        "coverage"
+      ],
+      "visuals": [
+        "reliability diagram",
+        "rank histogram",
+        "daily fan chart",
+        "bias by hour"
+      ],
+      "update_frequency": "NWP issue cycle / hourly refresh if available",
+      "plain_language_explanation": "At Pavagada Solar Park, use aggregated NWP ensemble weather-to-power + quantile calibration because operator decision is based on total output.",
+      "why_this_technique": "Day-ahead uncertainty is dominated by weather forecast uncertainty, so ensemble calibration is more relevant."
+    },
+    {
+      "asset_level": "plant",
+      "asset_id": "SOL_PAVAGADA",
+      "display_name": "Pavagada Solar Park",
+      "parent_id": "GRID_PAVAGADA_220KV",
+      "capacity_mw": 2050,
+      "horizon": "8day",
+      "business_name": "Medium-range planning outlook",
+      "usage": "Weekly planning, low-renewable risk windows, maintenance planning and reserve outlook.",
+      "technique_short": "Scenario ensemble + analog days + climatology band",
+      "technique_full": "Generate scenario bands from medium-range ensemble, match historical analog days, and calibrate with climatology/regime statistics.",
+      "level_adjustment": "Aggregate model: forecast is composed from hub/block forecasts and then reconciled at plant/grid level.",
+      "aggregation_method": "bottom_up_sum_plus_correlation_adjusted_uncertainty",
+      "model_artifact": "PV_WEEKLY_SCENARIO_ANALOG_V1",
+      "inputs": [
+        "medium-range ensemble",
+        "seasonal regime",
+        "historical analog days",
+        "availability plan",
+        "daily summaries"
+      ],
+      "primary_metrics": [
+        "regime_accuracy",
+        "low_generation_risk_hit",
+        "weekly_coverage",
+        "scenario_spread",
+        "bias"
+      ],
+      "visuals": [
+        "weekly scenario band",
+        "regime calendar",
+        "risk heatmap"
+      ],
+      "update_frequency": "Daily",
+      "plain_language_explanation": "At Pavagada Solar Park, use aggregated Scenario ensemble + analog days + climatology band because operator decision is based on total output.",
+      "why_this_technique": "At 8 days, exact minute-level output is unrealistic; broad regime and scenario risk are more useful."
+    }
+  ],
+  "usage_note": "Use model_selection_by_asset_horizon.csv for full mapping across every asset and horizon."
+}

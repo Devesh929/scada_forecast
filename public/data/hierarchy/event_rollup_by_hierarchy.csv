@@ -1,0 +1,28 @@
+hierarchy_level,asset_id,asset_name,event_type,event_count,total_loss_mw,max_single_event_loss_mw,latest_event_time,severity
+block,PAV_S3_B02,Hub 3 Block 2,cloud_ramp_up_after_cloud_clearance,12,132.91,12.09,2025-01-18T15:20:00,WATCH
+block,PAV_S3_B03,Hub 3 Block 3,cloud_ramp_up_after_cloud_clearance,12,129.92,11.66,2025-01-18T15:20:00,WATCH
+block,PAV_S3_B04,Hub 3 Block 4,cloud_ramp_up_after_cloud_clearance,12,130.16,12.02,2025-01-18T15:20:00,WATCH
+hub,PAV_HUB_3,Hub / Segment 3,cloud_ramp_up_after_cloud_clearance,12,447.2,41.06,2025-01-18T15:20:00,WATCH
+plant,SOL_PAVAGADA,Pavagada Solar Park,cloud_ramp_up_after_cloud_clearance,12,571.8,53.37,2025-01-18T15:20:00,WATCH
+grid,GRID_PAVAGADA_220KV,Pavagada 220kV Pooling Station,cloud_ramp_up_after_cloud_clearance,12,560.37,52.3,2025-01-18T15:20:00,WATCH
+block,PAV_S6_B01,Hub 6 Block 1,cloud_ramp_down,12,141.56,13.15,2025-06-26T14:55:00,WATCH
+block,PAV_S6_B02,Hub 6 Block 2,cloud_ramp_down,12,147.6,13.17,2025-06-26T14:55:00,WATCH
+block,PAV_S6_B03,Hub 6 Block 3,cloud_ramp_down,12,140.37,12.87,2025-06-26T14:55:00,WATCH
+hub,PAV_HUB_6,Hub / Segment 6,cloud_ramp_down,12,479.16,43.11,2025-06-26T14:55:00,WATCH
+plant,SOL_PAVAGADA,Pavagada Solar Park,cloud_ramp_down,12,610.83,59.22,2025-06-26T14:55:00,WATCH
+grid,GRID_PAVAGADA_220KV,Pavagada 220kV Pooling Station,cloud_ramp_down,12,598.62,58.04,2025-06-26T14:55:00,WATCH
+block,PAV_S6_B01,Hub 6 Block 1,grid_curtailment_plateau,12,205.42,18.48,2025-05-14T12:45:00,ALERT
+block,PAV_S6_B02,Hub 6 Block 2,grid_curtailment_plateau,12,208.41,19.24,2025-05-14T12:45:00,ALERT
+block,PAV_S6_B03,Hub 6 Block 3,grid_curtailment_plateau,12,209.31,18.88,2025-05-14T12:45:00,ALERT
+block,PAV_S6_B04,Hub 6 Block 4,grid_curtailment_plateau,12,209.47,18.7,2025-05-14T12:45:00,ALERT
+hub,PAV_HUB_6,Hub / Segment 6,grid_curtailment_plateau,12,920.83,80.54,2025-05-14T12:45:00,ALERT
+plant,SOL_PAVAGADA,Pavagada Solar Park,grid_curtailment_plateau,12,1171.64,106.32,2025-05-14T12:45:00,ALERT
+grid,GRID_PAVAGADA_220KV,Pavagada 220kV Pooling Station,grid_curtailment_plateau,12,1148.21,104.19,2025-05-14T12:45:00,ALERT
+block,PAV_S2_B01,Hub 2 Block 1,scada_stale_signal,11,0.0,0.0,2025-08-18T15:00:00,ALERT
+hub,PAV_HUB_2,Hub / Segment 2,scada_stale_signal,11,0.0,0.0,2025-08-18T15:00:00,ALERT
+plant,SOL_PAVAGADA,Pavagada Solar Park,scada_stale_signal,11,0.0,0.0,2025-08-18T15:00:00,ALERT
+grid,GRID_PAVAGADA_220KV,Pavagada 220kV Pooling Station,scada_stale_signal,11,0.0,0.0,2025-08-18T15:00:00,ALERT
+block,PAV_S4_B05,Hub 4 Block 5,inverter_group_derating,12,94.96,8.78,2025-10-22T10:30:00,WATCH
+hub,PAV_HUB_4,Hub / Segment 4,inverter_group_derating,12,107.53,10.21,2025-10-22T10:30:00,WATCH
+plant,SOL_PAVAGADA,Pavagada Solar Park,inverter_group_derating,12,137.42,13.3,2025-10-22T10:30:00,WATCH
+grid,GRID_PAVAGADA_220KV,Pavagada 220kV Pooling Station,inverter_group_derating,12,134.68,13.03,2025-10-22T10:30:00,WATCH

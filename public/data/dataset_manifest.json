@@ -1,0 +1,25 @@
+{
+  "description": "Forecast technique mapping by asset level and horizon, plus simulation level selector/aggregation instructions.",
+  "files": [
+    "data/model_selection_by_asset_horizon.csv",
+    "data/forecast_model_registry.json",
+    "data/simulation_level_config.json",
+    "data/forecast_level_agent_instructions.json",
+    "docs/FORECAST_LEVEL_AGENT_INSTRUCTIONS.md"
+  ],
+  "assets": 50,
+  "model_selection_rows": 250,
+  "horizons": [
+    "5min",
+    "15min",
+    "2hour",
+    "40hour",
+    "8day"
+  ],
+  "levels": [
+    "grid",
+    "plant",
+    "hub",
+    "block"
+  ]
+}

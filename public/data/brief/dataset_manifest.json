@@ -1,0 +1,14 @@
+{
+  "description": "Granular JSON and instructions for SuryaGrid Plant Brief page with hub/block drilldowns and SCADA field information.",
+  "files": [
+    "data/plant_brief_granular_data.json",
+    "data/scada_data_dictionary.json",
+    "data/plant_brief_ui_spec.json",
+    "data/plant_brief_agent_spec.json",
+    "data/plant_layout_blocks_flat.csv",
+    "docs/PLANT_BRIEF_AGENT_INSTRUCTIONS.md"
+  ],
+  "hubs": 8,
+  "blocks": 40,
+  "scada_dictionary_groups": 4
+}

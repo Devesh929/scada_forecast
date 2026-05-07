@@ -1,0 +1,24 @@
+{
+  "purpose": "Explicit hierarchy-level event data for grid, plant, hub and block views.",
+  "direct_answer": "Earlier packs had active_event examples and plant-level scenarios, but not a full clean hierarchy event timeline. This pack provides it.",
+  "files": {
+    "hierarchy_event_timeline.csv": "Main file. Filter by hierarchy_level and asset_id to show events for grid/plant/hub/block.",
+    "hierarchy_event_master.csv": "One row per physical event.",
+    "event_rollup_by_hierarchy.csv": "Counts and total/max loss by asset and event type.",
+    "hierarchy_event_tree.json": "Nested grid -> plant -> hub -> block tree with latest event.",
+    "current_event_snapshot_2025_01_05.csv": "Small current-day snapshot to display in Plant Brief or Live Operating Day."
+  },
+  "filter_examples": {
+    "hub_click": "events.filter(e => e.hierarchy_level === 'hub' && e.asset_id === selectedHubId)",
+    "hub_child_events": "events.filter(e => e.hub_id === selectedHubId && e.hierarchy_level === 'block')",
+    "block_click": "events.filter(e => e.hierarchy_level === 'block' && e.asset_id === selectedBlockId)",
+    "plant_rollup": "events.filter(e => e.hierarchy_level === 'plant' && e.asset_id === 'SOL_PAVAGADA')",
+    "grid_rollup": "events.filter(e => e.hierarchy_level === 'grid' && e.asset_id === 'GRID_PAVAGADA_220KV')"
+  },
+  "ui_behavior": [
+    "On hub click, show hub rollup event and child block events.",
+    "On block click, show only block event history plus SCADA/sensor detail.",
+    "On plant/grid level simulation, use rollup rows to show aggregate impact.",
+    "Use severity to color event badges: WATCH amber, ALERT red."
+  ]
+}

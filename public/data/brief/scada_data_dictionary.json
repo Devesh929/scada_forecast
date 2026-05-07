@@ -1,0 +1,211 @@
+{
+  "schema_version": "1.0",
+  "groups": [
+    {
+      "group_id": "scada_power",
+      "group_name": "SCADA Power Tags",
+      "visual_icon": "Zap",
+      "plain_language": "Core power tags used to compare actual export, possible power, schedule and grid constraints.",
+      "fields": [
+        {
+          "field_name": "actual_mw",
+          "label": "Actual MW",
+          "unit": "MW",
+          "source": "Plant SCADA / meter",
+          "refresh_rate": "5 minutes",
+          "plain_language": "Power actually exported by the block or plant.",
+          "why_it_matters": "This is the line used to evaluate forecast error and schedule deviation.",
+          "quality_rule": "If unchanged for more than 2 intervals, mark STALE.",
+          "visual_type": "solid line",
+          "click_drawer_sections": [
+            "latest value",
+            "trend",
+            "quality",
+            "relation to forecast"
+          ]
+        },
+        {
+          "field_name": "possible_power_mw",
+          "label": "Possible Power",
+          "unit": "MW",
+          "source": "Derived from irradiance + temperature + availability",
+          "refresh_rate": "5 minutes",
+          "plain_language": "Power the unit could generate if not constrained.",
+          "why_it_matters": "Separates weather/resource capability from grid curtailment.",
+          "quality_rule": "Normally should be greater than or equal to actual MW.",
+          "visual_type": "dashed line",
+          "click_drawer_sections": [
+            "possible vs actual",
+            "curtailment gap",
+            "resource relation"
+          ]
+        },
+        {
+          "field_name": "scheduled_mw",
+          "label": "Scheduled MW",
+          "unit": "MW",
+          "source": "Dispatch/schedule system",
+          "refresh_rate": "15 minutes",
+          "plain_language": "Committed generation for the dispatch block.",
+          "why_it_matters": "Deviation penalty risk is based on actual vs schedule.",
+          "quality_rule": "Must exist for all active dispatch periods.",
+          "visual_type": "step line",
+          "click_drawer_sections": [
+            "schedule trace",
+            "deviation",
+            "dispatch block"
+          ]
+        }
+      ]
+    },
+    {
+      "group_id": "grid_limit",
+      "group_name": "Grid Constraint / Curtailment",
+      "visual_icon": "SlidersHorizontal",
+      "plain_language": "Tags used to explain whether output is limited by grid or plant controller.",
+      "fields": [
+        {
+          "field_name": "local_limit_mw",
+          "label": "Local Limit MW",
+          "unit": "MW",
+          "source": "Power plant controller / grid instruction",
+          "refresh_rate": "5 minutes",
+          "plain_language": "Maximum export allowed at that timestamp.",
+          "why_it_matters": "If actual is clipped near this line while possible power is higher, classify curtailment.",
+          "quality_rule": "Required when curtailment_status is CONFIRMED.",
+          "visual_type": "horizontal/step limit line",
+          "click_drawer_sections": [
+            "limit timeline",
+            "possible vs actual clipping",
+            "curtailment reason"
+          ]
+        },
+        {
+          "field_name": "control_setpoint_mw",
+          "label": "PPC Setpoint",
+          "unit": "MW",
+          "source": "Power plant controller",
+          "refresh_rate": "5 minutes",
+          "plain_language": "Target output set by plant controller.",
+          "why_it_matters": "Explains whether plant was instructed to reduce output.",
+          "quality_rule": "Compare with local limit and actual MW.",
+          "visual_type": "line",
+          "click_drawer_sections": [
+            "setpoint trend",
+            "local limit comparison"
+          ]
+        }
+      ]
+    },
+    {
+      "group_id": "met_resource",
+      "group_name": "Meteorological / Resource Signals",
+      "visual_icon": "CloudSun",
+      "plain_language": "Signals explaining weather/resource availability and ramp risk.",
+      "fields": [
+        {
+          "field_name": "poa_wm2",
+          "label": "POA Irradiance",
+          "unit": "W/m\u00b2",
+          "source": "Plane-of-array sensor",
+          "refresh_rate": "5 minutes",
+          "plain_language": "Irradiance falling on the panel plane.",
+          "why_it_matters": "Primary physical driver of solar generation.",
+          "quality_rule": "Should move consistently with possible_power_mw.",
+          "visual_type": "line",
+          "click_drawer_sections": [
+            "irradiance trend",
+            "possible power relation"
+          ]
+        },
+        {
+          "field_name": "cloud_obstruction_probability",
+          "label": "Cloud Obstruction Probability",
+          "unit": "0-1",
+          "source": "Sky-camera / NWP proxy",
+          "refresh_rate": "5 minutes",
+          "plain_language": "Probability that clouds will obstruct solar output soon.",
+          "why_it_matters": "Early warning signal for cloud ramp-up/down events.",
+          "quality_rule": "If probability rises before output changes, mark cloud-ramp watch.",
+          "visual_type": "probability line",
+          "click_drawer_sections": [
+            "probability trend",
+            "event lead time",
+            "forecast impact"
+          ]
+        },
+        {
+          "field_name": "module_temp_c",
+          "label": "Module Temperature",
+          "unit": "\u00b0C",
+          "source": "Module temperature sensor / model",
+          "refresh_rate": "5 minutes",
+          "plain_language": "Panel temperature.",
+          "why_it_matters": "High module temperature reduces PV efficiency.",
+          "quality_rule": "Check plausibility against ambient temperature and irradiance.",
+          "visual_type": "line",
+          "click_drawer_sections": [
+            "temperature trend",
+            "derating impact"
+          ]
+        }
+      ]
+    },
+    {
+      "group_id": "forecast_outputs",
+      "group_name": "Forecast Outputs",
+      "visual_icon": "LineChart",
+      "plain_language": "Forecast fields used to draw the fan chart and decision bands.",
+      "fields": [
+        {
+          "field_name": "forecast_p10_mw",
+          "label": "P10 Forecast",
+          "unit": "MW",
+          "source": "Forecast engine",
+          "refresh_rate": "depends on horizon",
+          "plain_language": "Lower-bound forecast. Output is expected to be above this in most cases.",
+          "why_it_matters": "Shows downside / low generation risk.",
+          "quality_rule": "Must be less than or equal to P50.",
+          "visual_type": "forecast band lower edge",
+          "click_drawer_sections": [
+            "uncertainty band",
+            "coverage",
+            "low generation risk"
+          ]
+        },
+        {
+          "field_name": "forecast_p50_mw",
+          "label": "P50 Forecast",
+          "unit": "MW",
+          "source": "Forecast engine",
+          "refresh_rate": "depends on horizon",
+          "plain_language": "Central forecast line.",
+          "why_it_matters": "Main expected generation value.",
+          "quality_rule": "Must lie between P10 and P90.",
+          "visual_type": "solid forecast line",
+          "click_drawer_sections": [
+            "forecast trace",
+            "error",
+            "driver explanation"
+          ]
+        },
+        {
+          "field_name": "forecast_p90_mw",
+          "label": "P90 Forecast",
+          "unit": "MW",
+          "source": "Forecast engine",
+          "refresh_rate": "depends on horizon",
+          "plain_language": "Upper-bound forecast.",
+          "why_it_matters": "Shows upside / high generation case.",
+          "quality_rule": "Must be greater than or equal to P50.",
+          "visual_type": "forecast band upper edge",
+          "click_drawer_sections": [
+            "uncertainty band",
+            "coverage",
+            "high generation risk"
+          ]
+        }
+      ]
+    }
+  ]
+}

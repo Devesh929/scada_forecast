@@ -1,0 +1,71 @@
+{
+  "page": "Live Operating Day / Simulation",
+  "core_change_needed": "Add a Level Selector so simulation can run at grid, plant, hub or block level.",
+  "selectors": [
+    {
+      "selector_id": "asset_level",
+      "label": "View level",
+      "options": [
+        {
+          "value": "grid",
+          "label": "Grid / Pooling Station"
+        },
+        {
+          "value": "plant",
+          "label": "Plant"
+        },
+        {
+          "value": "hub",
+          "label": "Hub / Segment"
+        },
+        {
+          "value": "block",
+          "label": "Block"
+        }
+      ]
+    },
+    {
+      "selector_id": "asset_id",
+      "label": "Asset",
+      "source": "forecast_model_registry.json.assets filtered by selected asset_level"
+    },
+    {
+      "selector_id": "horizon",
+      "label": "Forecast horizon",
+      "options": [
+        "5min",
+        "15min",
+        "2hour",
+        "40hour",
+        "8day"
+      ]
+    }
+  ],
+  "data_filter_logic": {
+    "grid": "Filter children where parent rolls up to GRID_PAVAGADA_220KV; aggregate all plant/hub/block values.",
+    "plant": "Filter by plant_id = SOL_PAVAGADA; aggregate all hubs/blocks.",
+    "hub": "Filter blocks where parent_hub_id = selected hub_id.",
+    "block": "Filter exact block_id."
+  },
+  "chart_logic": {
+    "actual_mw": "Sum actual_mw for all selected child assets, or direct value for block.",
+    "possible_power_mw": "Sum possible_power_mw for selected child assets.",
+    "scheduled_mw": "Sum schedule for selected child assets.",
+    "local_limit_mw": "For grid/plant/hub, use active limiting constraint if present; otherwise capacity-level limit. For block, use direct local limit.",
+    "forecast_p50_mw": "Aggregate P50 by summing children.",
+    "forecast_p10_mw": "Do not simply sum P10. Use correlation-aware approximation: sum(P50) - sqrt(sum((P50-P10)^2)) for children.",
+    "forecast_p90_mw": "Do not simply sum P90. Use correlation-aware approximation: sum(P50) + sqrt(sum((P90-P50)^2)) for children."
+  },
+  "ui_behavior": [
+    "When user selects horizon, show technique card from model_selection_by_asset_horizon.csv.",
+    "When user selects hub, show hub-specific model, sensors and child block contribution.",
+    "When user selects block, show direct SCADA/sensor model and inverter/sensor diagnostics.",
+    "When user selects grid/plant, show aggregate forecast plus contribution breakdown by hub."
+  ],
+  "recommended_tabs": {
+    "plant_brief": "Show available horizons and default model family at plant/hub/block level in a Forecast Configuration mini-section.",
+    "historical_lab": "Show which model technique was validated for each horizon and level, with metrics.",
+    "live_operating_day": "Main place to switch grid/plant/hub/block level and see simulation at that level.",
+    "online_learning": "Show horizon-wise learning and refresh recommendation for the selected level."
+  }
+}

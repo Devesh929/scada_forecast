@@ -1,0 +1,76 @@
+{
+  "5min": {
+    "business_name": "Real-time nowcast / control-room forecast",
+    "model_family": "persistence + ramp-rate correction + SCADA quality gate",
+    "learning_window": "last 30 minutes",
+    "primary_online_metrics": [
+      "rolling_nMAE",
+      "ramp_hit_rate",
+      "lead_time_minutes",
+      "phase_error_minutes",
+      "SCADA freshness"
+    ],
+    "what_learning_means": "The model updates short-term ramp sensitivity and SCADA trust using the newest measurements.",
+    "refresh_rule": "If rolling nMAE > 6% OR SCADA quality becomes STALE, reduce confidence and refresh short-term weights.",
+    "ui_focus": "Show immediate event learning and whether the next few minutes are safe."
+  },
+  "15min": {
+    "business_name": "Intra-hour dispatch correction",
+    "model_family": "persistence + physical blend + residual correction",
+    "learning_window": "last 60 minutes",
+    "primary_online_metrics": [
+      "rolling_nMAE",
+      "coverage",
+      "false_alarm_rate",
+      "ramp_amplitude_error"
+    ],
+    "what_learning_means": "The model updates intra-hour residual correction and event probability threshold.",
+    "refresh_rule": "If coverage < 80% AND nMAE > 7%, widen interval and update residual correction.",
+    "ui_focus": "Show if the current dispatch block needs correction."
+  },
+  "2hour": {
+    "business_name": "Intraday forecast / reserve planning",
+    "model_family": "physical weather-to-power + Gaussian residual",
+    "learning_window": "last 4 operating hours",
+    "primary_online_metrics": [
+      "rolling_RMSE",
+      "rolling_nMAE",
+      "P10-P90 coverage",
+      "bias",
+      "ramp_amplitude_error"
+    ],
+    "what_learning_means": "The model learns whether today's weather-to-power residuals are shifted or more volatile than expected.",
+    "refresh_rule": "If bias persists for 4 hours OR coverage falls below 75%, recommend residual-weight refresh.",
+    "ui_focus": "Show whether reserve/schedule correction is required later today."
+  },
+  "40hour": {
+    "business_name": "Day-ahead probabilistic forecast",
+    "model_family": "NWP ensemble weather-to-power + calibration",
+    "learning_window": "latest day-ahead issue + realized intraday evidence",
+    "primary_online_metrics": [
+      "bias",
+      "coverage",
+      "reliability_drift",
+      "ensemble_spread_health",
+      "pinball_loss_proxy"
+    ],
+    "what_learning_means": "The model checks if the day-ahead ensemble was biased or under/over-dispersed as actuals arrive.",
+    "refresh_rule": "If reliability drift is high or ensemble spread is too narrow, recalibrate day-ahead quantiles overnight.",
+    "ui_focus": "Show whether tomorrow's probabilistic schedule needs recalibration."
+  },
+  "8day": {
+    "business_name": "Medium-range planning outlook",
+    "model_family": "ensemble scenario + analog days + climatology band",
+    "learning_window": "daily realization vs weekly scenario band",
+    "primary_online_metrics": [
+      "regime_accuracy",
+      "low_generation_risk_hit",
+      "weekly_coverage",
+      "scenario_spread",
+      "bias"
+    ],
+    "what_learning_means": "The model learns whether the selected weekly weather regime and analog set are still valid.",
+    "refresh_rule": "If realized regime diverges from expected regime for 2 consecutive days, refresh analog/regime mapping.",
+    "ui_focus": "Show weekly planning risk, not exact 5-minute accuracy."
+  }
+}

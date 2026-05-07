@@ -1,0 +1,92 @@
+[
+  {
+    "timestamp": "2025-01-05T14:30:00",
+    "time_label": "14:30",
+    "horizon": "5min",
+    "learning_signal": "NORMAL_LEARNING",
+    "action_code": "NO_ACTION",
+    "plain_language_learning": "Continue normal nowcast update.",
+    "why_it_happened": "Normal monitoring state changed."
+  },
+  {
+    "timestamp": "2025-01-05T15:15:00",
+    "time_label": "15:15",
+    "horizon": "5min",
+    "learning_signal": "PRE_EVENT_RAMP_WARNING_LEARNED",
+    "action_code": "SHORT_REFRESH",
+    "plain_language_learning": "Refresh very-short-term residual weight using latest 30 minutes.",
+    "why_it_happened": "Event probability crossed warning level before actual ramp."
+  },
+  {
+    "timestamp": "2025-01-05T15:20:00",
+    "time_label": "15:20",
+    "horizon": "5min",
+    "learning_signal": "PRE_EVENT_RAMP_WARNING_LEARNED",
+    "action_code": "EVENT_MODE_ON",
+    "plain_language_learning": "Increase ramp sensitivity; keep nowcast on event mode until actual stabilizes.",
+    "why_it_happened": "Event probability crossed warning level before actual ramp."
+  },
+  {
+    "timestamp": "2025-01-05T17:15:00",
+    "time_label": "17:15",
+    "horizon": "5min",
+    "learning_signal": "NORMAL_LEARNING",
+    "action_code": "NO_ACTION",
+    "plain_language_learning": "Continue normal nowcast update.",
+    "why_it_happened": "Normal monitoring state changed."
+  },
+  {
+    "timestamp": "2025-01-05T14:30:00",
+    "time_label": "14:30",
+    "horizon": "15min",
+    "learning_signal": "NORMAL_LEARNING",
+    "action_code": "NO_ACTION",
+    "plain_language_learning": "Continue intra-hour monitoring.",
+    "why_it_happened": "Normal monitoring state changed."
+  },
+  {
+    "timestamp": "2025-01-05T15:20:00",
+    "time_label": "15:20",
+    "horizon": "15min",
+    "learning_signal": "PRE_EVENT_RAMP_WARNING_LEARNED",
+    "action_code": "WIDEN_AND_UPDATE",
+    "plain_language_learning": "Widen intra-hour uncertainty and update dispatch-block residual.",
+    "why_it_happened": "Event probability crossed warning level before actual ramp."
+  },
+  {
+    "timestamp": "2025-01-05T17:15:00",
+    "time_label": "17:15",
+    "horizon": "15min",
+    "learning_signal": "NORMAL_LEARNING",
+    "action_code": "NO_ACTION",
+    "plain_language_learning": "Continue intra-hour monitoring.",
+    "why_it_happened": "Normal monitoring state changed."
+  },
+  {
+    "timestamp": "2025-01-05T14:30:00",
+    "time_label": "14:30",
+    "horizon": "2hour",
+    "learning_signal": "NORMAL_LEARNING",
+    "action_code": "NO_ACTION",
+    "plain_language_learning": "Intraday model healthy.",
+    "why_it_happened": "Normal monitoring state changed."
+  },
+  {
+    "timestamp": "2025-01-05T14:30:00",
+    "time_label": "14:30",
+    "horizon": "40hour",
+    "learning_signal": "NORMAL_LEARNING",
+    "action_code": "NO_ACTION",
+    "plain_language_learning": "Day-ahead calibration acceptable.",
+    "why_it_happened": "Normal monitoring state changed."
+  },
+  {
+    "timestamp": "2025-01-05T14:30:00",
+    "time_label": "14:30",
+    "horizon": "8day",
+    "learning_signal": "NORMAL_LEARNING",
+    "action_code": "NO_ACTION",
+    "plain_language_learning": "Weekly planning regime remains usable.",
+    "why_it_happened": "Normal monitoring state changed."
+  }
+]

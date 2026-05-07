@@ -1,0 +1,85 @@
+{
+  "page_name": "Plant Infrastructure Brief",
+  "design_goal": "Turn the Plant Brief from a static KPI page into a clickable infrastructure and data-readiness map.",
+  "sections": [
+    {
+      "section_id": "plant_hero",
+      "title": "Plant Hero",
+      "description": "Show plant identity, capacity, business objective, forecast horizons, and data history.",
+      "source": "plant_brief_granular_data.json.plant"
+    },
+    {
+      "section_id": "operating_snapshot",
+      "title": "Operating Snapshot",
+      "description": "Show actual MW, possible power, schedule, local limit, availability and data health.",
+      "source": "plant_brief_granular_data.json.plant.current_operating_snapshot"
+    },
+    {
+      "section_id": "interactive_layout",
+      "title": "Spatial Asset Performance",
+      "description": "Render 8 hubs x 5 block grid. Each cell must be clickable.",
+      "source": "plant_brief_granular_data.json.hubs[].blocks[]",
+      "visual_rules": [
+        "Use block.visual_cue.fill_color as cell background.",
+        "Use block.visual_cue.border_color as border.",
+        "Show block_id as label.",
+        "On hover show block.visual_cue.tooltip.",
+        "On click open block.click_action.component."
+      ]
+    },
+    {
+      "section_id": "hub_drawer",
+      "title": "Hub Detail Drawer",
+      "trigger": "hub click",
+      "must_show": [
+        "capacity_mw",
+        "max_historical_output_mw",
+        "current_actual_mw",
+        "current_possible_power_mw",
+        "current_schedule_mw",
+        "local_limit_mw",
+        "availability_pct",
+        "performance_ratio_pct",
+        "curtailment_gap_mw",
+        "active_event",
+        "forecast_contribution"
+      ]
+    },
+    {
+      "section_id": "block_drawer",
+      "title": "Block Detail Drawer",
+      "trigger": "block click",
+      "must_show": [
+        "capacity_mw",
+        "max_historical_output_mw",
+        "current_actual_mw",
+        "current_possible_power_mw",
+        "current_schedule_mw",
+        "local_limit_mw",
+        "availability_pct",
+        "inverter_count",
+        "inverters_online",
+        "sensors",
+        "scada_tags",
+        "active_event"
+      ]
+    },
+    {
+      "section_id": "data_channels",
+      "title": "Available Data Channels",
+      "description": "Render grouped accordions for SCADA, grid, met/resource and forecast fields.",
+      "source": "scada_data_dictionary.json.groups",
+      "interaction": "Click a field to open FieldInfoDrawer with plain language and quality rule."
+    }
+  ],
+  "acceptance_tests": [
+    "The user can click every hub and block.",
+    "Hub 3 displays amber cloud-ramp watch.",
+    "Hub 6 displays red curtailment alert.",
+    "Block drawer shows max historical output and current max/actual/possible values.",
+    "Clicking actual_mw explains what actual MW means and how quality is checked.",
+    "Clicking local_limit_mw explains how curtailment is detected.",
+    "Clicking cloud_obstruction_probability explains why it is an early ramp signal.",
+    "Data channels are grouped by meaning, not just chip labels."
+  ]
+}

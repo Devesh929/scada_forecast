@@ -1,0 +1,515 @@
+{
+  "asset_id": "GRID_PAVAGADA_220KV",
+  "asset_name": "Pavagada 220kV Pooling Station",
+  "hierarchy_level": "grid",
+  "capacity_mw": 2050,
+  "latest_event": {
+    "event_type": "inverter_group_derating",
+    "root_cause": "equipment",
+    "severity": "WATCH",
+    "start_time": "2025-10-22T10:30:00",
+    "max_loss_mw": 11.51,
+    "tooltip": "GRID_PAVAGADA_220KV: inverter_group_derating | loss 11.5 MW | equipment"
+  },
+  "children": [
+    {
+      "asset_id": "SOL_PAVAGADA",
+      "asset_name": "Pavagada Solar Park",
+      "hierarchy_level": "plant",
+      "capacity_mw": 2050,
+      "latest_event": {
+        "event_type": "inverter_group_derating",
+        "root_cause": "equipment",
+        "severity": "WATCH",
+        "start_time": "2025-10-22T10:30:00",
+        "max_loss_mw": 11.74,
+        "tooltip": "SOL_PAVAGADA: inverter_group_derating | loss 11.7 MW | equipment"
+      },
+      "children": [
+        {
+          "asset_id": "PAV_HUB_1",
+          "asset_name": "Hub / Segment 1",
+          "hierarchy_level": "hub",
+          "capacity_mw": 250,
+          "latest_event": null,
+          "children": [
+            {
+              "asset_id": "PAV_S1_B01",
+              "asset_name": "Hub 1 Block 1",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S1_B02",
+              "asset_name": "Hub 1 Block 2",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S1_B03",
+              "asset_name": "Hub 1 Block 3",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S1_B04",
+              "asset_name": "Hub 1 Block 4",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S1_B05",
+              "asset_name": "Hub 1 Block 5",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "asset_id": "PAV_HUB_2",
+          "asset_name": "Hub / Segment 2",
+          "hierarchy_level": "hub",
+          "capacity_mw": 250,
+          "latest_event": {
+            "event_type": "scada_stale_signal",
+            "root_cause": "data_quality",
+            "severity": "ALERT",
+            "start_time": "2025-08-18T15:00:00",
+            "max_loss_mw": 0.0,
+            "tooltip": "PAV_HUB_2: scada_stale_signal | loss 0.0 MW | data_quality"
+          },
+          "children": [
+            {
+              "asset_id": "PAV_S2_B01",
+              "asset_name": "Hub 2 Block 1",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": {
+                "event_type": "scada_stale_signal",
+                "root_cause": "data_quality",
+                "severity": "ALERT",
+                "start_time": "2025-08-18T15:00:00",
+                "max_loss_mw": 0.0,
+                "tooltip": "PAV_S2_B01: scada_stale_signal | loss 0.0 MW | data_quality"
+              },
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S2_B02",
+              "asset_name": "Hub 2 Block 2",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S2_B03",
+              "asset_name": "Hub 2 Block 3",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S2_B04",
+              "asset_name": "Hub 2 Block 4",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S2_B05",
+              "asset_name": "Hub 2 Block 5",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "asset_id": "PAV_HUB_3",
+          "asset_name": "Hub / Segment 3",
+          "hierarchy_level": "hub",
+          "capacity_mw": 250,
+          "latest_event": {
+            "event_type": "cloud_ramp_up_after_cloud_clearance",
+            "root_cause": "weather",
+            "severity": "WATCH",
+            "start_time": "2025-01-18T15:20:00",
+            "max_loss_mw": 37.9,
+            "tooltip": "PAV_HUB_3: cloud_ramp_up_after_cloud_clearance | loss 37.9 MW | weather"
+          },
+          "children": [
+            {
+              "asset_id": "PAV_S3_B01",
+              "asset_name": "Hub 3 Block 1",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S3_B02",
+              "asset_name": "Hub 3 Block 2",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": {
+                "event_type": "cloud_ramp_up_after_cloud_clearance",
+                "root_cause": "weather",
+                "severity": "WATCH",
+                "start_time": "2025-01-18T15:20:00",
+                "max_loss_mw": 9.99,
+                "tooltip": "PAV_S3_B02: cloud_ramp_up_after_cloud_clearance | loss 10.0 MW | weather"
+              },
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S3_B03",
+              "asset_name": "Hub 3 Block 3",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": {
+                "event_type": "cloud_ramp_up_after_cloud_clearance",
+                "root_cause": "weather",
+                "severity": "WATCH",
+                "start_time": "2025-01-18T15:20:00",
+                "max_loss_mw": 10.47,
+                "tooltip": "PAV_S3_B03: cloud_ramp_up_after_cloud_clearance | loss 10.5 MW | weather"
+              },
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S3_B04",
+              "asset_name": "Hub 3 Block 4",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": {
+                "event_type": "cloud_ramp_up_after_cloud_clearance",
+                "root_cause": "weather",
+                "severity": "WATCH",
+                "start_time": "2025-01-18T15:20:00",
+                "max_loss_mw": 11.28,
+                "tooltip": "PAV_S3_B04: cloud_ramp_up_after_cloud_clearance | loss 11.3 MW | weather"
+              },
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S3_B05",
+              "asset_name": "Hub 3 Block 5",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "asset_id": "PAV_HUB_4",
+          "asset_name": "Hub / Segment 4",
+          "hierarchy_level": "hub",
+          "capacity_mw": 250,
+          "latest_event": {
+            "event_type": "inverter_group_derating",
+            "root_cause": "equipment",
+            "severity": "WATCH",
+            "start_time": "2025-10-22T10:30:00",
+            "max_loss_mw": 8.39,
+            "tooltip": "PAV_HUB_4: inverter_group_derating | loss 8.4 MW | equipment"
+          },
+          "children": [
+            {
+              "asset_id": "PAV_S4_B01",
+              "asset_name": "Hub 4 Block 1",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S4_B02",
+              "asset_name": "Hub 4 Block 2",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S4_B03",
+              "asset_name": "Hub 4 Block 3",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S4_B04",
+              "asset_name": "Hub 4 Block 4",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S4_B05",
+              "asset_name": "Hub 4 Block 5",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": {
+                "event_type": "inverter_group_derating",
+                "root_cause": "equipment",
+                "severity": "WATCH",
+                "start_time": "2025-10-22T10:30:00",
+                "max_loss_mw": 7.71,
+                "tooltip": "PAV_S4_B05: inverter_group_derating | loss 7.7 MW | equipment"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "asset_id": "PAV_HUB_5",
+          "asset_name": "Hub / Segment 5",
+          "hierarchy_level": "hub",
+          "capacity_mw": 250,
+          "latest_event": null,
+          "children": [
+            {
+              "asset_id": "PAV_S5_B01",
+              "asset_name": "Hub 5 Block 1",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S5_B02",
+              "asset_name": "Hub 5 Block 2",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S5_B03",
+              "asset_name": "Hub 5 Block 3",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S5_B04",
+              "asset_name": "Hub 5 Block 4",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S5_B05",
+              "asset_name": "Hub 5 Block 5",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "asset_id": "PAV_HUB_6",
+          "asset_name": "Hub / Segment 6",
+          "hierarchy_level": "hub",
+          "capacity_mw": 250,
+          "latest_event": {
+            "event_type": "cloud_ramp_down",
+            "root_cause": "weather",
+            "severity": "WATCH",
+            "start_time": "2025-06-26T14:55:00",
+            "max_loss_mw": 42.21,
+            "tooltip": "PAV_HUB_6: cloud_ramp_down | loss 42.2 MW | weather"
+          },
+          "children": [
+            {
+              "asset_id": "PAV_S6_B01",
+              "asset_name": "Hub 6 Block 1",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": {
+                "event_type": "cloud_ramp_down",
+                "root_cause": "weather",
+                "severity": "WATCH",
+                "start_time": "2025-06-26T14:55:00",
+                "max_loss_mw": 12.01,
+                "tooltip": "PAV_S6_B01: cloud_ramp_down | loss 12.0 MW | weather"
+              },
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S6_B02",
+              "asset_name": "Hub 6 Block 2",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": {
+                "event_type": "cloud_ramp_down",
+                "root_cause": "weather",
+                "severity": "WATCH",
+                "start_time": "2025-06-26T14:55:00",
+                "max_loss_mw": 12.88,
+                "tooltip": "PAV_S6_B02: cloud_ramp_down | loss 12.9 MW | weather"
+              },
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S6_B03",
+              "asset_name": "Hub 6 Block 3",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": {
+                "event_type": "cloud_ramp_down",
+                "root_cause": "weather",
+                "severity": "WATCH",
+                "start_time": "2025-06-26T14:55:00",
+                "max_loss_mw": 11.42,
+                "tooltip": "PAV_S6_B03: cloud_ramp_down | loss 11.4 MW | weather"
+              },
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S6_B04",
+              "asset_name": "Hub 6 Block 4",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": {
+                "event_type": "grid_curtailment_plateau",
+                "root_cause": "grid_constraint",
+                "severity": "ALERT",
+                "start_time": "2025-05-14T12:45:00",
+                "max_loss_mw": 17.1,
+                "tooltip": "PAV_S6_B04: grid_curtailment_plateau | loss 17.1 MW | grid_constraint"
+              },
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S6_B05",
+              "asset_name": "Hub 6 Block 5",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "asset_id": "PAV_HUB_7",
+          "asset_name": "Hub / Segment 7",
+          "hierarchy_level": "hub",
+          "capacity_mw": 250,
+          "latest_event": null,
+          "children": [
+            {
+              "asset_id": "PAV_S7_B01",
+              "asset_name": "Hub 7 Block 1",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S7_B02",
+              "asset_name": "Hub 7 Block 2",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S7_B03",
+              "asset_name": "Hub 7 Block 3",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S7_B04",
+              "asset_name": "Hub 7 Block 4",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S7_B05",
+              "asset_name": "Hub 7 Block 5",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "asset_id": "PAV_HUB_8",
+          "asset_name": "Hub / Segment 8",
+          "hierarchy_level": "hub",
+          "capacity_mw": 300,
+          "latest_event": null,
+          "children": [
+            {
+              "asset_id": "PAV_S8_B01",
+              "asset_name": "Hub 8 Block 1",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S8_B02",
+              "asset_name": "Hub 8 Block 2",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S8_B03",
+              "asset_name": "Hub 8 Block 3",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S8_B04",
+              "asset_name": "Hub 8 Block 4",
+              "hierarchy_level": "block",
+              "capacity_mw": 50,
+              "latest_event": null,
+              "children": []
+            },
+            {
+              "asset_id": "PAV_S8_B05",
+              "asset_name": "Hub 8 Block 5",
+              "hierarchy_level": "block",
+              "capacity_mw": 100,
+              "latest_event": null,
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

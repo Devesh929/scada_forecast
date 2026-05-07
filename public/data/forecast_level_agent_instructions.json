@@ -1,0 +1,39 @@
+{
+  "question_answered": "Where to show 'for this plant/hub and 5min horizon, what technique are we using?' and how to show simulation at grid/hub/block levels.",
+  "short_answer": {
+    "technique_location": [
+      "Plant Brief: Forecast Configuration mini-section for selected plant/hub/block.",
+      "Historical Lab: Validation results and evidence for that technique.",
+      "Live Operating Day: Active technique card updates when level/horizon changes.",
+      "Online Learning: Shows how that technique is adapting during replay."
+    ],
+    "simulation_level": "The current simulation is mostly aggregate/representative. Add a level selector: Grid / Plant / Hub / Block."
+  },
+  "implementation_steps": [
+    "Load model_selection_by_asset_horizon.csv.",
+    "Add selector: Level = Grid / Plant / Hub / Block.",
+    "Add selector: Asset ID filtered by level.",
+    "Add selector: Horizon.",
+    "On every change, find row where asset_level + asset_id + horizon match.",
+    "Render Technique Card with business_name, technique_short, technique_full, inputs, metrics and plain_language_explanation.",
+    "Use simulation_level_config.json to aggregate or filter simulation data by selected level.",
+    "For grid/plant/hub aggregate views, show contribution breakdown by child assets.",
+    "For block view, show direct SCADA/sensor diagnostics."
+  ],
+  "component_suggestions": [
+    "ForecastTechniqueCard",
+    "ForecastLevelSelector",
+    "ModelInputsChips",
+    "MetricMeaningPanel",
+    "AggregationBreadcrumb",
+    "HubContributionWaterfall",
+    "ChildAssetContributionTable"
+  ],
+  "acceptance_tests": [
+    "Selecting Hub 3 + 5min shows persistence + ramp-rate correction and explains cloud ramp watch.",
+    "Selecting Hub 6 + 2hour shows physical weather-to-power + Gaussian residual and shows curtailment/local limit as input.",
+    "Selecting Grid + 40hour shows NWP ensemble weather-to-power + quantile calibration.",
+    "Switching from Plant to Hub changes chart values and technique explanation.",
+    "Block level simulation displays one block only and shows inverter/sensor details."
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "description": "Hierarchy-level event data for grid, plant, hub and block event visibility.",
+  "row_counts": {
+    "hierarchy_assets.csv": 50,
+    "hierarchy_event_master.csv": 59,
+    "hierarchy_event_timeline.csv": 320,
+    "event_rollup_by_hierarchy.csv": 27,
+    "current_event_snapshot_2025_01_05.csv": 6,
+    "hierarchy_event_tree.json": 1,
+    "hierarchy_event_agent_spec.json": 1
+  },
+  "physical_events": 59,
+  "timeline_rows": 320,
+  "levels": [
+    "grid",
+    "plant",
+    "hub",
+    "block"
+  ]
+}

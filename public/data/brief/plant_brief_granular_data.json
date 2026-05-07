@@ -1,0 +1,5815 @@
+{
+  "schema_version": "1.0",
+  "plant": {
+    "plant_id": "SOL_PAVAGADA",
+    "plant_name": "Pavagada Solar Park",
+    "asset_type": "solar",
+    "state": "Karnataka",
+    "district": "Tumakuru",
+    "grid_node": "Pavagada Pooling Station",
+    "voltage_kv": 220,
+    "design_capacity_mw": 2050,
+    "dc_capacity_mwp": 2350,
+    "ac_capacity_mw": 2050,
+    "layout_summary": "8 hubs / 40 blocks / inverter groups",
+    "business_objective": "Minimize deviation penalties and optimize grid dispatch.",
+    "forecast_objective": "Use plant infrastructure, SCADA quality, met observations and forecast horizon to select the right forecasting method.",
+    "historical_training": {
+      "available_years": 10,
+      "training_period": "2015-01-01 to 2023-12-31",
+      "validation_period": "2024-01-01 to 2024-12-31",
+      "test_period": "2025-01-01 to 2025-12-31",
+      "available_granularities": [
+        "5-minute event windows",
+        "15-minute operational history",
+        "daily 2015-2025 summaries"
+      ]
+    },
+    "enabled_horizons": [
+      {
+        "horizon": "5min",
+        "business_name": "Real-time nowcast",
+        "purpose": "Control-room ramp warning and SCADA response"
+      },
+      {
+        "horizon": "15min",
+        "business_name": "Intra-hour dispatch correction",
+        "purpose": "Dispatch block correction"
+      },
+      {
+        "horizon": "2hour",
+        "business_name": "Intraday reserve planning",
+        "purpose": "Schedule and reserve update"
+      },
+      {
+        "horizon": "40hour",
+        "business_name": "Day-ahead probabilistic forecast",
+        "purpose": "Day-ahead schedule and uncertainty"
+      },
+      {
+        "horizon": "8day",
+        "business_name": "Medium-range planning outlook",
+        "purpose": "Weekly planning risk"
+      }
+    ],
+    "data_readiness": {
+      "overall_score_pct": 94,
+      "scada_score_pct": 96,
+      "met_score_pct": 91,
+      "nwp_score_pct": 89,
+      "history_score_pct": 95,
+      "known_gaps": [
+        "block-level sky-camera feed is simulated/proxy",
+        "NWP ensemble members are synthetic for demo"
+      ]
+    },
+    "current_operating_snapshot": {
+      "timestamp": "2025-01-05T15:20:00",
+      "actual_mw": 1426.5,
+      "possible_power_mw": 1478.2,
+      "scheduled_mw": 1360.0,
+      "local_limit_mw": 2050.0,
+      "availability_pct": 97.3,
+      "scada_health": "GOOD",
+      "met_health": "GOOD",
+      "nwp_health": "GOOD",
+      "latest_event_status": "NORMAL"
+    }
+  },
+  "visual_status_palette": {
+    "GOOD": {
+      "fill_color": "#0B5F45",
+      "border_color": "#35D07F",
+      "text_color": "#D8FFF0",
+      "badge_color": "#35D07F",
+      "icon": "CheckCircle",
+      "label": "Healthy",
+      "meaning": "Normal operating state."
+    },
+    "WATCH": {
+      "fill_color": "#5A4811",
+      "border_color": "#FFBD4A",
+      "text_color": "#FFF3CF",
+      "badge_color": "#FFBD4A",
+      "icon": "CloudSun",
+      "label": "Watch",
+      "meaning": "Attention required; potential event developing."
+    },
+    "ALERT": {
+      "fill_color": "#5A1420",
+      "border_color": "#FF5C68",
+      "text_color": "#FFE2E6",
+      "badge_color": "#FF5C68",
+      "icon": "AlertTriangle",
+      "label": "Action needed",
+      "meaning": "Confirmed issue or material operating constraint."
+    },
+    "STALE": {
+      "fill_color": "#4A1E12",
+      "border_color": "#FF7A45",
+      "text_color": "#FFEBDD",
+      "badge_color": "#FF7A45",
+      "icon": "WifiOff",
+      "label": "Data stale",
+      "meaning": "Tag is not updating at the expected interval."
+    }
+  },
+  "layout": {
+    "type": "hub_block_grid",
+    "hub_count": 8,
+    "blocks_per_hub": 5,
+    "recommended_rendering": "Render hubs as rows and blocks as clickable cells. Use visual_cue.fill_color, border_color, icon and badge from each hub/block.",
+    "legend": [
+      {
+        "status": "GOOD",
+        "meaning": "Healthy block or hub"
+      },
+      {
+        "status": "WATCH",
+        "meaning": "Potential ramp/weather risk"
+      },
+      {
+        "status": "ALERT",
+        "meaning": "Curtailment/equipment/data issue requiring action"
+      },
+      {
+        "status": "STALE",
+        "meaning": "SCADA tag has stopped updating"
+      }
+    ]
+  },
+  "hubs": [
+    {
+      "hub_id": "PAV_HUB_1",
+      "hub_name": "Hub / Segment 1",
+      "plant_id": "SOL_PAVAGADA",
+      "status": "GOOD",
+      "layout_position": {
+        "row": 1,
+        "col_start": 1,
+        "col_end": 5
+      },
+      "kpis": {
+        "capacity_mw": 250,
+        "max_historical_output_mw": 229.13,
+        "current_actual_mw": 183.68,
+        "current_possible_power_mw": 190.99,
+        "current_schedule_mw": 170.0,
+        "local_limit_mw": 275.0,
+        "availability_pct": 97.6,
+        "performance_ratio_pct": 85.56,
+        "curtailment_gap_mw": 7.31,
+        "deviation_from_schedule_mw": 13.68,
+        "event_probability_pct": 4
+      },
+      "active_event": {
+        "event_type": "normal",
+        "root_cause": "normal",
+        "event_probability_pct": 4,
+        "operator_message": "No material event detected."
+      },
+      "visual_cue": {
+        "fill_color": "#0B5F45",
+        "border_color": "#35D07F",
+        "text_color": "#D8FFF0",
+        "badge_color": "#35D07F",
+        "icon": "CheckCircle",
+        "label": "Healthy",
+        "meaning": "Normal operating state.",
+        "heatmap_value": 73.47,
+        "tooltip": "No material event detected.",
+        "primary_badge": "GOOD",
+        "secondary_badge": "Normal"
+      },
+      "click_action": {
+        "component": "HubDetailDrawer",
+        "lookup_key": "hub_id",
+        "lookup_value": "PAV_HUB_1",
+        "drawer_title": "Hub / Segment 1 details"
+      },
+      "drilldown_sections": [
+        "Operating KPIs",
+        "Block contribution",
+        "SCADA tags",
+        "Sensor health",
+        "Current event",
+        "Forecast contribution by horizon"
+      ],
+      "forecast_contribution": [
+        {
+          "horizon": "5min",
+          "forecast_p50_mw": 185.51,
+          "forecast_band_mw": 12.5,
+          "confidence_pct": 88
+        },
+        {
+          "horizon": "2hour",
+          "forecast_p50_mw": 183.35,
+          "forecast_band_mw": 32.5,
+          "confidence_pct": 82
+        },
+        {
+          "horizon": "40hour",
+          "forecast_p50_mw": 173.8,
+          "forecast_band_mw": 60.0,
+          "confidence_pct": 76
+        }
+      ],
+      "blocks": [
+        {
+          "block_id": "PAV_S1_B01",
+          "block_name": "Hub 1 Block 1",
+          "parent_hub_id": "PAV_HUB_1",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 1,
+            "col": 1
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 47.68,
+            "current_actual_mw": 37.72,
+            "current_possible_power_mw": 38.68,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 85.52,
+            "deviation_from_schedule_mw": 3.72,
+            "curtailment_gap_mw": 0.96,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S1_1",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 793.75,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S1_1",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 712.68,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S1_1",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 44.31,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S1",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 37.72,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 38.68,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 75.45,
+            "tooltip": "PAV_S1_B01: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S1_B01",
+            "drawer_title": "PAV_S1_B01 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S1_B02",
+          "block_name": "Hub 1 Block 2",
+          "parent_hub_id": "PAV_HUB_1",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 1,
+            "col": 2
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 45.6,
+            "current_actual_mw": 36.24,
+            "current_possible_power_mw": 37.53,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 88.9,
+            "deviation_from_schedule_mw": 2.24,
+            "curtailment_gap_mw": 1.29,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S1_2",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 803.6,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S1_2",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 729.84,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S1_2",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 46.54,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S1",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 36.24,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 37.53,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 72.48,
+            "tooltip": "PAV_S1_B02: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S1_B02",
+            "drawer_title": "PAV_S1_B02 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S1_B03",
+          "block_name": "Hub 1 Block 3",
+          "parent_hub_id": "PAV_HUB_1",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 1,
+            "col": 3
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 47.42,
+            "current_actual_mw": 37.7,
+            "current_possible_power_mw": 39.05,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 89.19,
+            "deviation_from_schedule_mw": 3.7,
+            "curtailment_gap_mw": 1.35,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S1_3",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 787.22,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S1_3",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 723.99,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S1_3",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 48.74,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S1",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 37.7,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 39.05,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 75.39,
+            "tooltip": "PAV_S1_B03: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S1_B03",
+            "drawer_title": "PAV_S1_B03 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S1_B04",
+          "block_name": "Hub 1 Block 4",
+          "parent_hub_id": "PAV_HUB_1",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 1,
+            "col": 4
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 45.29,
+            "current_actual_mw": 35.46,
+            "current_possible_power_mw": 36.68,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 90.08,
+            "deviation_from_schedule_mw": 1.46,
+            "curtailment_gap_mw": 1.22,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S1_4",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 808.3,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S1_4",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 782.64,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S1_4",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 47.38,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S1",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 35.46,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 36.68,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 70.92,
+            "tooltip": "PAV_S1_B04: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S1_B04",
+            "drawer_title": "PAV_S1_B04 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S1_B05",
+          "block_name": "Hub 1 Block 5",
+          "parent_hub_id": "PAV_HUB_1",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 1,
+            "col": 5
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 46.14,
+            "current_actual_mw": 36.91,
+            "current_possible_power_mw": 37.68,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 88.31,
+            "deviation_from_schedule_mw": 2.91,
+            "curtailment_gap_mw": 0.77,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S1_5",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 826.35,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S1_5",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 765.67,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S1_5",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 48.17,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S1",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 36.91,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 37.68,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 73.83,
+            "tooltip": "PAV_S1_B05: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S1_B05",
+            "drawer_title": "PAV_S1_B05 operating details"
+          }
+        }
+      ]
+    },
+    {
+      "hub_id": "PAV_HUB_2",
+      "hub_name": "Hub / Segment 2",
+      "plant_id": "SOL_PAVAGADA",
+      "status": "GOOD",
+      "layout_position": {
+        "row": 2,
+        "col_start": 1,
+        "col_end": 5
+      },
+      "kpis": {
+        "capacity_mw": 250,
+        "max_historical_output_mw": 225.69,
+        "current_actual_mw": 184.07,
+        "current_possible_power_mw": 189.43,
+        "current_schedule_mw": 170.0,
+        "local_limit_mw": 275.0,
+        "availability_pct": 97.6,
+        "performance_ratio_pct": 85.6,
+        "curtailment_gap_mw": 5.37,
+        "deviation_from_schedule_mw": 14.07,
+        "event_probability_pct": 4
+      },
+      "active_event": {
+        "event_type": "normal",
+        "root_cause": "normal",
+        "event_probability_pct": 4,
+        "operator_message": "No material event detected."
+      },
+      "visual_cue": {
+        "fill_color": "#0B5F45",
+        "border_color": "#35D07F",
+        "text_color": "#D8FFF0",
+        "badge_color": "#35D07F",
+        "icon": "CheckCircle",
+        "label": "Healthy",
+        "meaning": "Normal operating state.",
+        "heatmap_value": 73.63,
+        "tooltip": "No material event detected.",
+        "primary_badge": "GOOD",
+        "secondary_badge": "Normal"
+      },
+      "click_action": {
+        "component": "HubDetailDrawer",
+        "lookup_key": "hub_id",
+        "lookup_value": "PAV_HUB_2",
+        "drawer_title": "Hub / Segment 2 details"
+      },
+      "drilldown_sections": [
+        "Operating KPIs",
+        "Block contribution",
+        "SCADA tags",
+        "Sensor health",
+        "Current event",
+        "Forecast contribution by horizon"
+      ],
+      "forecast_contribution": [
+        {
+          "horizon": "5min",
+          "forecast_p50_mw": 185.91,
+          "forecast_band_mw": 12.5,
+          "confidence_pct": 88
+        },
+        {
+          "horizon": "2hour",
+          "forecast_p50_mw": 181.86,
+          "forecast_band_mw": 32.5,
+          "confidence_pct": 82
+        },
+        {
+          "horizon": "40hour",
+          "forecast_p50_mw": 172.38,
+          "forecast_band_mw": 60.0,
+          "confidence_pct": 76
+        }
+      ],
+      "blocks": [
+        {
+          "block_id": "PAV_S2_B01",
+          "block_name": "Hub 2 Block 1",
+          "parent_hub_id": "PAV_HUB_2",
+          "status": "STALE",
+          "layout_position": {
+            "row": 2,
+            "col": 1
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 45.7,
+            "current_actual_mw": 35.22,
+            "current_possible_power_mw": 36.45,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 85.61,
+            "deviation_from_schedule_mw": 1.22,
+            "curtailment_gap_mw": 1.22,
+            "event_probability_pct": 88
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S2_1",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 782.24,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S2_1",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 767.21,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S2_1",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 45.19,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S2",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 35.22,
+              "unit": "MW",
+              "quality": "STALE"
+            },
+            "possible_power_mw": {
+              "value": 36.45,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 240,
+              "unit": "seconds",
+              "quality": "STALE"
+            }
+          },
+          "active_event": {
+            "event_type": "scada_stale_signal",
+            "root_cause": "data_quality",
+            "event_probability_pct": 88,
+            "operator_message": "Actual MW tag is not refreshing. Use last-good value and reduce confidence."
+          },
+          "visual_cue": {
+            "fill_color": "#4A1E12",
+            "border_color": "#FF7A45",
+            "text_color": "#FFEBDD",
+            "badge_color": "#FF7A45",
+            "icon": "WifiOff",
+            "label": "Data stale",
+            "meaning": "Tag is not updating at the expected interval.",
+            "heatmap_value": 70.45,
+            "tooltip": "PAV_S2_B01: Actual MW tag is not refreshing. Use last-good value and reduce confidence.",
+            "primary_badge": "STALE",
+            "secondary_badge": "Scada Stale Signal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S2_B01",
+            "drawer_title": "PAV_S2_B01 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S2_B02",
+          "block_name": "Hub 2 Block 2",
+          "parent_hub_id": "PAV_HUB_2",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 2,
+            "col": 2
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 45.8,
+            "current_actual_mw": 35.69,
+            "current_possible_power_mw": 36.85,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 90.62,
+            "deviation_from_schedule_mw": 1.69,
+            "curtailment_gap_mw": 1.17,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S2_2",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 811.84,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S2_2",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 764.82,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S2_2",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 44.03,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S2",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 35.69,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 36.85,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 71.37,
+            "tooltip": "PAV_S2_B02: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S2_B02",
+            "drawer_title": "PAV_S2_B02 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S2_B03",
+          "block_name": "Hub 2 Block 3",
+          "parent_hub_id": "PAV_HUB_2",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 2,
+            "col": 3
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 46.14,
+            "current_actual_mw": 37.4,
+            "current_possible_power_mw": 38.65,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 90.94,
+            "deviation_from_schedule_mw": 3.4,
+            "curtailment_gap_mw": 1.25,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S2_3",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 811.2,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S2_3",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 760.13,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S2_3",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 47.11,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S2",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 37.4,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 38.65,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 74.79,
+            "tooltip": "PAV_S2_B03: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S2_B03",
+            "drawer_title": "PAV_S2_B03 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S2_B04",
+          "block_name": "Hub 2 Block 4",
+          "parent_hub_id": "PAV_HUB_2",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 2,
+            "col": 4
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 45.69,
+            "current_actual_mw": 38.3,
+            "current_possible_power_mw": 39.21,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 85.19,
+            "deviation_from_schedule_mw": 4.3,
+            "curtailment_gap_mw": 0.91,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S2_4",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 785.24,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S2_4",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 734.1,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S2_4",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 44.27,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S2",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 38.3,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 39.21,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 76.6,
+            "tooltip": "PAV_S2_B04: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S2_B04",
+            "drawer_title": "PAV_S2_B04 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S2_B05",
+          "block_name": "Hub 2 Block 5",
+          "parent_hub_id": "PAV_HUB_2",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 2,
+            "col": 5
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 45.94,
+            "current_actual_mw": 38.85,
+            "current_possible_power_mw": 39.71,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 88.93,
+            "deviation_from_schedule_mw": 4.85,
+            "curtailment_gap_mw": 0.87,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S2_5",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 791.65,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S2_5",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 792.31,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S2_5",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 45.75,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S2",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 38.85,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 39.71,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 77.7,
+            "tooltip": "PAV_S2_B05: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S2_B05",
+            "drawer_title": "PAV_S2_B05 operating details"
+          }
+        }
+      ]
+    },
+    {
+      "hub_id": "PAV_HUB_3",
+      "hub_name": "Hub / Segment 3",
+      "plant_id": "SOL_PAVAGADA",
+      "status": "WATCH",
+      "layout_position": {
+        "row": 3,
+        "col_start": 1,
+        "col_end": 5
+      },
+      "kpis": {
+        "capacity_mw": 250,
+        "max_historical_output_mw": 233.42,
+        "current_actual_mw": 170.77,
+        "current_possible_power_mw": 181.62,
+        "current_schedule_mw": 170.0,
+        "local_limit_mw": 275.0,
+        "availability_pct": 95.1,
+        "performance_ratio_pct": 83.84,
+        "curtailment_gap_mw": 10.85,
+        "deviation_from_schedule_mw": 0.77,
+        "event_probability_pct": 71
+      },
+      "active_event": {
+        "event_type": "cloud_ramp_watch",
+        "root_cause": "weather",
+        "event_probability_pct": 71,
+        "operator_message": "Cloud obstruction probability is rising. Forecast P50 is expected to bend before actual MW changes."
+      },
+      "visual_cue": {
+        "fill_color": "#5A4811",
+        "border_color": "#FFBD4A",
+        "text_color": "#FFF3CF",
+        "badge_color": "#FFBD4A",
+        "icon": "CloudSun",
+        "label": "Watch",
+        "meaning": "Attention required; potential event developing.",
+        "heatmap_value": 68.31,
+        "tooltip": "Cloud obstruction probability is rising. Forecast P50 is expected to bend before actual MW changes.",
+        "primary_badge": "WATCH",
+        "secondary_badge": "Cloud Ramp Watch"
+      },
+      "click_action": {
+        "component": "HubDetailDrawer",
+        "lookup_key": "hub_id",
+        "lookup_value": "PAV_HUB_3",
+        "drawer_title": "Hub / Segment 3 details"
+      },
+      "drilldown_sections": [
+        "Operating KPIs",
+        "Block contribution",
+        "SCADA tags",
+        "Sensor health",
+        "Current event",
+        "Forecast contribution by horizon"
+      ],
+      "forecast_contribution": [
+        {
+          "horizon": "5min",
+          "forecast_p50_mw": 172.48,
+          "forecast_band_mw": 12.5,
+          "confidence_pct": 72
+        },
+        {
+          "horizon": "2hour",
+          "forecast_p50_mw": 174.36,
+          "forecast_band_mw": 32.5,
+          "confidence_pct": 68
+        },
+        {
+          "horizon": "40hour",
+          "forecast_p50_mw": 165.28,
+          "forecast_band_mw": 60.0,
+          "confidence_pct": 62
+        }
+      ],
+      "blocks": [
+        {
+          "block_id": "PAV_S3_B01",
+          "block_name": "Hub 3 Block 1",
+          "parent_hub_id": "PAV_HUB_3",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 3,
+            "col": 1
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 46.2,
+            "current_actual_mw": 37.11,
+            "current_possible_power_mw": 37.92,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 86.32,
+            "deviation_from_schedule_mw": 3.11,
+            "curtailment_gap_mw": 0.82,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S3_1",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 839.8,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S3_1",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 755.86,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S3_1",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 43.55,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S3",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 37.11,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 37.92,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 74.22,
+            "tooltip": "PAV_S3_B01: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S3_B01",
+            "drawer_title": "PAV_S3_B01 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S3_B02",
+          "block_name": "Hub 3 Block 2",
+          "parent_hub_id": "PAV_HUB_3",
+          "status": "WATCH",
+          "layout_position": {
+            "row": 3,
+            "col": 2
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 46.88,
+            "current_actual_mw": 33.2,
+            "current_possible_power_mw": 35.24,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 95.5,
+            "performance_ratio_pct": 86.75,
+            "deviation_from_schedule_mw": -0.8,
+            "curtailment_gap_mw": 2.04,
+            "event_probability_pct": 71
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 16,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S3_2",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 793.77,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S3_2",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 715.72,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S3_2",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 45.29,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S3",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "WATCH",
+              "latest_value": 0.67,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 33.2,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 35.24,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 95.5,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "cloud_ramp_watch",
+            "root_cause": "weather",
+            "event_probability_pct": 71,
+            "operator_message": "Cloud obstruction probability is rising. Forecast P50 is expected to bend before actual MW changes."
+          },
+          "visual_cue": {
+            "fill_color": "#5A4811",
+            "border_color": "#FFBD4A",
+            "text_color": "#FFF3CF",
+            "badge_color": "#FFBD4A",
+            "icon": "CloudSun",
+            "label": "Watch",
+            "meaning": "Attention required; potential event developing.",
+            "heatmap_value": 66.4,
+            "tooltip": "PAV_S3_B02: Cloud obstruction probability is rising. Forecast P50 is expected to bend before actual MW changes.",
+            "primary_badge": "WATCH",
+            "secondary_badge": "Cloud Ramp Watch"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S3_B02",
+            "drawer_title": "PAV_S3_B02 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S3_B03",
+          "block_name": "Hub 3 Block 3",
+          "parent_hub_id": "PAV_HUB_3",
+          "status": "WATCH",
+          "layout_position": {
+            "row": 3,
+            "col": 3
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 47.91,
+            "current_actual_mw": 37.91,
+            "current_possible_power_mw": 39.98,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 95.5,
+            "performance_ratio_pct": 87.16,
+            "deviation_from_schedule_mw": 3.91,
+            "curtailment_gap_mw": 2.07,
+            "event_probability_pct": 71
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 16,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S3_3",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 760.92,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S3_3",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 774.86,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S3_3",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 47.09,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S3",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "WATCH",
+              "latest_value": 0.67,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 37.91,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 39.98,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 95.5,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "cloud_ramp_watch",
+            "root_cause": "weather",
+            "event_probability_pct": 71,
+            "operator_message": "Cloud obstruction probability is rising. Forecast P50 is expected to bend before actual MW changes."
+          },
+          "visual_cue": {
+            "fill_color": "#5A4811",
+            "border_color": "#FFBD4A",
+            "text_color": "#FFF3CF",
+            "badge_color": "#FFBD4A",
+            "icon": "CloudSun",
+            "label": "Watch",
+            "meaning": "Attention required; potential event developing.",
+            "heatmap_value": 75.82,
+            "tooltip": "PAV_S3_B03: Cloud obstruction probability is rising. Forecast P50 is expected to bend before actual MW changes.",
+            "primary_badge": "WATCH",
+            "secondary_badge": "Cloud Ramp Watch"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S3_B03",
+            "drawer_title": "PAV_S3_B03 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S3_B04",
+          "block_name": "Hub 3 Block 4",
+          "parent_hub_id": "PAV_HUB_3",
+          "status": "WATCH",
+          "layout_position": {
+            "row": 3,
+            "col": 4
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 46.92,
+            "current_actual_mw": 35.59,
+            "current_possible_power_mw": 37.68,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 95.5,
+            "performance_ratio_pct": 82.67,
+            "deviation_from_schedule_mw": 1.59,
+            "curtailment_gap_mw": 2.09,
+            "event_probability_pct": 71
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 16,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S3_4",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 794.78,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S3_4",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 750.84,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S3_4",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 48.72,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S3",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "WATCH",
+              "latest_value": 0.67,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 35.59,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 37.68,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 95.5,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "cloud_ramp_watch",
+            "root_cause": "weather",
+            "event_probability_pct": 71,
+            "operator_message": "Cloud obstruction probability is rising. Forecast P50 is expected to bend before actual MW changes."
+          },
+          "visual_cue": {
+            "fill_color": "#5A4811",
+            "border_color": "#FFBD4A",
+            "text_color": "#FFF3CF",
+            "badge_color": "#FFBD4A",
+            "icon": "CloudSun",
+            "label": "Watch",
+            "meaning": "Attention required; potential event developing.",
+            "heatmap_value": 71.19,
+            "tooltip": "PAV_S3_B04: Cloud obstruction probability is rising. Forecast P50 is expected to bend before actual MW changes.",
+            "primary_badge": "WATCH",
+            "secondary_badge": "Cloud Ramp Watch"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S3_B04",
+            "drawer_title": "PAV_S3_B04 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S3_B05",
+          "block_name": "Hub 3 Block 5",
+          "parent_hub_id": "PAV_HUB_3",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 3,
+            "col": 5
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 46.5,
+            "current_actual_mw": 38.17,
+            "current_possible_power_mw": 39.38,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 86.07,
+            "deviation_from_schedule_mw": 4.17,
+            "curtailment_gap_mw": 1.21,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S3_5",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 833.01,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S3_5",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 788.35,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S3_5",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 44.79,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S3",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 38.17,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 39.38,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 76.33,
+            "tooltip": "PAV_S3_B05: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S3_B05",
+            "drawer_title": "PAV_S3_B05 operating details"
+          }
+        }
+      ]
+    },
+    {
+      "hub_id": "PAV_HUB_4",
+      "hub_name": "Hub / Segment 4",
+      "plant_id": "SOL_PAVAGADA",
+      "status": "GOOD",
+      "layout_position": {
+        "row": 4,
+        "col_start": 1,
+        "col_end": 5
+      },
+      "kpis": {
+        "capacity_mw": 250,
+        "max_historical_output_mw": 227.29,
+        "current_actual_mw": 185.3,
+        "current_possible_power_mw": 190.97,
+        "current_schedule_mw": 170.0,
+        "local_limit_mw": 275.0,
+        "availability_pct": 97.6,
+        "performance_ratio_pct": 89.34,
+        "curtailment_gap_mw": 5.68,
+        "deviation_from_schedule_mw": 15.3,
+        "event_probability_pct": 4
+      },
+      "active_event": {
+        "event_type": "normal",
+        "root_cause": "normal",
+        "event_probability_pct": 4,
+        "operator_message": "No material event detected."
+      },
+      "visual_cue": {
+        "fill_color": "#0B5F45",
+        "border_color": "#35D07F",
+        "text_color": "#D8FFF0",
+        "badge_color": "#35D07F",
+        "icon": "CheckCircle",
+        "label": "Healthy",
+        "meaning": "Normal operating state.",
+        "heatmap_value": 74.12,
+        "tooltip": "No material event detected.",
+        "primary_badge": "GOOD",
+        "secondary_badge": "Normal"
+      },
+      "click_action": {
+        "component": "HubDetailDrawer",
+        "lookup_key": "hub_id",
+        "lookup_value": "PAV_HUB_4",
+        "drawer_title": "Hub / Segment 4 details"
+      },
+      "drilldown_sections": [
+        "Operating KPIs",
+        "Block contribution",
+        "SCADA tags",
+        "Sensor health",
+        "Current event",
+        "Forecast contribution by horizon"
+      ],
+      "forecast_contribution": [
+        {
+          "horizon": "5min",
+          "forecast_p50_mw": 187.15,
+          "forecast_band_mw": 12.5,
+          "confidence_pct": 88
+        },
+        {
+          "horizon": "2hour",
+          "forecast_p50_mw": 183.33,
+          "forecast_band_mw": 32.5,
+          "confidence_pct": 82
+        },
+        {
+          "horizon": "40hour",
+          "forecast_p50_mw": 173.79,
+          "forecast_band_mw": 60.0,
+          "confidence_pct": 76
+        }
+      ],
+      "blocks": [
+        {
+          "block_id": "PAV_S4_B01",
+          "block_name": "Hub 4 Block 1",
+          "parent_hub_id": "PAV_HUB_4",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 4,
+            "col": 1
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 46.59,
+            "current_actual_mw": 36.82,
+            "current_possible_power_mw": 37.7,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 85.0,
+            "deviation_from_schedule_mw": 2.82,
+            "curtailment_gap_mw": 0.88,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S4_1",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 785.93,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S4_1",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 711.75,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S4_1",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 48.57,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S4",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 36.82,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 37.7,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 73.64,
+            "tooltip": "PAV_S4_B01: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S4_B01",
+            "drawer_title": "PAV_S4_B01 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S4_B02",
+          "block_name": "Hub 4 Block 2",
+          "parent_hub_id": "PAV_HUB_4",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 4,
+            "col": 2
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 45.92,
+            "current_actual_mw": 38.51,
+            "current_possible_power_mw": 39.39,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 85.35,
+            "deviation_from_schedule_mw": 4.51,
+            "curtailment_gap_mw": 0.89,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S4_2",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 830.24,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S4_2",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 795.23,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S4_2",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 43.51,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S4",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 38.51,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 39.39,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 77.02,
+            "tooltip": "PAV_S4_B02: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S4_B02",
+            "drawer_title": "PAV_S4_B02 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S4_B03",
+          "block_name": "Hub 4 Block 3",
+          "parent_hub_id": "PAV_HUB_4",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 4,
+            "col": 3
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 47.28,
+            "current_actual_mw": 36.17,
+            "current_possible_power_mw": 37.43,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 89.6,
+            "deviation_from_schedule_mw": 2.17,
+            "curtailment_gap_mw": 1.26,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S4_3",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 770.27,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S4_3",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 752.78,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S4_3",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 46.3,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S4",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 36.17,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 37.43,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 72.34,
+            "tooltip": "PAV_S4_B03: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S4_B03",
+            "drawer_title": "PAV_S4_B03 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S4_B04",
+          "block_name": "Hub 4 Block 4",
+          "parent_hub_id": "PAV_HUB_4",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 4,
+            "col": 4
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 46.27,
+            "current_actual_mw": 35.53,
+            "current_possible_power_mw": 36.33,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 86.27,
+            "deviation_from_schedule_mw": 1.53,
+            "curtailment_gap_mw": 0.79,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S4_4",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 803.14,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S4_4",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 775.69,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S4_4",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 44.21,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S4",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 35.53,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 36.33,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 71.06,
+            "tooltip": "PAV_S4_B04: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S4_B04",
+            "drawer_title": "PAV_S4_B04 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S4_B05",
+          "block_name": "Hub 4 Block 5",
+          "parent_hub_id": "PAV_HUB_4",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 4,
+            "col": 5
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 46.95,
+            "current_actual_mw": 35.82,
+            "current_possible_power_mw": 36.56,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 87.63,
+            "deviation_from_schedule_mw": 1.82,
+            "curtailment_gap_mw": 0.73,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S4_5",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 801.41,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S4_5",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 720.89,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S4_5",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 44.35,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S4",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 35.82,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 36.56,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 71.65,
+            "tooltip": "PAV_S4_B05: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S4_B05",
+            "drawer_title": "PAV_S4_B05 operating details"
+          }
+        }
+      ]
+    },
+    {
+      "hub_id": "PAV_HUB_5",
+      "hub_name": "Hub / Segment 5",
+      "plant_id": "SOL_PAVAGADA",
+      "status": "GOOD",
+      "layout_position": {
+        "row": 5,
+        "col_start": 1,
+        "col_end": 5
+      },
+      "kpis": {
+        "capacity_mw": 250,
+        "max_historical_output_mw": 228.45,
+        "current_actual_mw": 177.94,
+        "current_possible_power_mw": 183.45,
+        "current_schedule_mw": 170.0,
+        "local_limit_mw": 275.0,
+        "availability_pct": 97.6,
+        "performance_ratio_pct": 85.54,
+        "curtailment_gap_mw": 5.51,
+        "deviation_from_schedule_mw": 7.94,
+        "event_probability_pct": 4
+      },
+      "active_event": {
+        "event_type": "normal",
+        "root_cause": "normal",
+        "event_probability_pct": 4,
+        "operator_message": "No material event detected."
+      },
+      "visual_cue": {
+        "fill_color": "#0B5F45",
+        "border_color": "#35D07F",
+        "text_color": "#D8FFF0",
+        "badge_color": "#35D07F",
+        "icon": "CheckCircle",
+        "label": "Healthy",
+        "meaning": "Normal operating state.",
+        "heatmap_value": 71.18,
+        "tooltip": "No material event detected.",
+        "primary_badge": "GOOD",
+        "secondary_badge": "Normal"
+      },
+      "click_action": {
+        "component": "HubDetailDrawer",
+        "lookup_key": "hub_id",
+        "lookup_value": "PAV_HUB_5",
+        "drawer_title": "Hub / Segment 5 details"
+      },
+      "drilldown_sections": [
+        "Operating KPIs",
+        "Block contribution",
+        "SCADA tags",
+        "Sensor health",
+        "Current event",
+        "Forecast contribution by horizon"
+      ],
+      "forecast_contribution": [
+        {
+          "horizon": "5min",
+          "forecast_p50_mw": 179.72,
+          "forecast_band_mw": 12.5,
+          "confidence_pct": 88
+        },
+        {
+          "horizon": "2hour",
+          "forecast_p50_mw": 176.11,
+          "forecast_band_mw": 32.5,
+          "confidence_pct": 82
+        },
+        {
+          "horizon": "40hour",
+          "forecast_p50_mw": 166.94,
+          "forecast_band_mw": 60.0,
+          "confidence_pct": 76
+        }
+      ],
+      "blocks": [
+        {
+          "block_id": "PAV_S5_B01",
+          "block_name": "Hub 5 Block 1",
+          "parent_hub_id": "PAV_HUB_5",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 5,
+            "col": 1
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 45.69,
+            "current_actual_mw": 34.46,
+            "current_possible_power_mw": 35.35,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 90.43,
+            "deviation_from_schedule_mw": 0.46,
+            "curtailment_gap_mw": 0.9,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S5_1",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 828.77,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S5_1",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 716.38,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S5_1",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 44.43,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S5",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 34.46,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 35.35,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 68.91,
+            "tooltip": "PAV_S5_B01: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S5_B01",
+            "drawer_title": "PAV_S5_B01 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S5_B02",
+          "block_name": "Hub 5 Block 2",
+          "parent_hub_id": "PAV_HUB_5",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 5,
+            "col": 2
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 45.4,
+            "current_actual_mw": 37.14,
+            "current_possible_power_mw": 38.34,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 90.61,
+            "deviation_from_schedule_mw": 3.14,
+            "curtailment_gap_mw": 1.21,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S5_2",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 805.68,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S5_2",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 752.54,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S5_2",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 47.71,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S5",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 37.14,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 38.34,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 74.27,
+            "tooltip": "PAV_S5_B02: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S5_B02",
+            "drawer_title": "PAV_S5_B02 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S5_B03",
+          "block_name": "Hub 5 Block 3",
+          "parent_hub_id": "PAV_HUB_5",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 5,
+            "col": 3
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 45.29,
+            "current_actual_mw": 37.79,
+            "current_possible_power_mw": 39.04,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 87.59,
+            "deviation_from_schedule_mw": 3.79,
+            "curtailment_gap_mw": 1.25,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S5_3",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 793.89,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S5_3",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 752.03,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S5_3",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 47.37,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S5",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 37.79,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 39.04,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 75.58,
+            "tooltip": "PAV_S5_B03: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S5_B03",
+            "drawer_title": "PAV_S5_B03 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S5_B04",
+          "block_name": "Hub 5 Block 4",
+          "parent_hub_id": "PAV_HUB_5",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 5,
+            "col": 4
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 45.3,
+            "current_actual_mw": 37.59,
+            "current_possible_power_mw": 38.37,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 87.42,
+            "deviation_from_schedule_mw": 3.59,
+            "curtailment_gap_mw": 0.78,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S5_4",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 787.14,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S5_4",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 787.55,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S5_4",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 44.49,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S5",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 37.59,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 38.37,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 75.18,
+            "tooltip": "PAV_S5_B04: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S5_B04",
+            "drawer_title": "PAV_S5_B04 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S5_B05",
+          "block_name": "Hub 5 Block 5",
+          "parent_hub_id": "PAV_HUB_5",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 5,
+            "col": 5
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 46.27,
+            "current_actual_mw": 34.94,
+            "current_possible_power_mw": 35.95,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 86.67,
+            "deviation_from_schedule_mw": 0.94,
+            "curtailment_gap_mw": 1.01,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S5_5",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 779.98,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S5_5",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 793.09,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S5_5",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 45.66,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S5",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 34.94,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 35.95,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 69.88,
+            "tooltip": "PAV_S5_B05: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S5_B05",
+            "drawer_title": "PAV_S5_B05 operating details"
+          }
+        }
+      ]
+    },
+    {
+      "hub_id": "PAV_HUB_6",
+      "hub_name": "Hub / Segment 6",
+      "plant_id": "SOL_PAVAGADA",
+      "status": "ALERT",
+      "layout_position": {
+        "row": 6,
+        "col_start": 1,
+        "col_end": 5
+      },
+      "kpis": {
+        "capacity_mw": 250,
+        "max_historical_output_mw": 225.76,
+        "current_actual_mw": 139.06,
+        "current_possible_power_mw": 196.53,
+        "current_schedule_mw": 170.0,
+        "local_limit_mw": 140.0,
+        "availability_pct": 88.1,
+        "performance_ratio_pct": 81.99,
+        "curtailment_gap_mw": 57.48,
+        "deviation_from_schedule_mw": -30.94,
+        "event_probability_pct": 92
+      },
+      "active_event": {
+        "event_type": "grid_curtailment_plateau",
+        "root_cause": "grid_constraint",
+        "event_probability_pct": 92,
+        "operator_message": "Possible power is above actual export and local limit is active. Treat this as curtailment, not weather error."
+      },
+      "visual_cue": {
+        "fill_color": "#5A1420",
+        "border_color": "#FF5C68",
+        "text_color": "#FFE2E6",
+        "badge_color": "#FF5C68",
+        "icon": "AlertTriangle",
+        "label": "Action needed",
+        "meaning": "Confirmed issue or material operating constraint.",
+        "heatmap_value": 55.62,
+        "tooltip": "Possible power is above actual export and local limit is active. Treat this as curtailment, not weather error.",
+        "primary_badge": "ALERT",
+        "secondary_badge": "Grid Curtailment Plateau"
+      },
+      "click_action": {
+        "component": "HubDetailDrawer",
+        "lookup_key": "hub_id",
+        "lookup_value": "PAV_HUB_6",
+        "drawer_title": "Hub / Segment 6 details"
+      },
+      "drilldown_sections": [
+        "Operating KPIs",
+        "Block contribution",
+        "SCADA tags",
+        "Sensor health",
+        "Current event",
+        "Forecast contribution by horizon"
+      ],
+      "forecast_contribution": [
+        {
+          "horizon": "5min",
+          "forecast_p50_mw": 140.45,
+          "forecast_band_mw": 12.5,
+          "confidence_pct": 72
+        },
+        {
+          "horizon": "2hour",
+          "forecast_p50_mw": 188.67,
+          "forecast_band_mw": 32.5,
+          "confidence_pct": 68
+        },
+        {
+          "horizon": "40hour",
+          "forecast_p50_mw": 178.85,
+          "forecast_band_mw": 60.0,
+          "confidence_pct": 62
+        }
+      ],
+      "blocks": [
+        {
+          "block_id": "PAV_S6_B01",
+          "block_name": "Hub 6 Block 1",
+          "parent_hub_id": "PAV_HUB_6",
+          "status": "ALERT",
+          "layout_position": {
+            "row": 6,
+            "col": 1
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 47.78,
+            "current_actual_mw": 27.99,
+            "current_possible_power_mw": 39.18,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 28.0,
+            "availability_pct": 88,
+            "performance_ratio_pct": 78.09,
+            "deviation_from_schedule_mw": -6.01,
+            "curtailment_gap_mw": 11.19,
+            "event_probability_pct": 92
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 13,
+            "combiner_boxes": 24,
+            "transformer_status": "WATCH",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S6_1",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 773.3,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S6_1",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 753.71,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S6_1",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 44.28,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S6",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 27.99,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 39.18,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 28.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 88,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "grid_curtailment_plateau",
+            "root_cause": "grid_constraint",
+            "event_probability_pct": 92,
+            "operator_message": "Possible power is above actual export and local limit is active. Treat this as curtailment, not weather error."
+          },
+          "visual_cue": {
+            "fill_color": "#5A1420",
+            "border_color": "#FF5C68",
+            "text_color": "#FFE2E6",
+            "badge_color": "#FF5C68",
+            "icon": "AlertTriangle",
+            "label": "Action needed",
+            "meaning": "Confirmed issue or material operating constraint.",
+            "heatmap_value": 55.97,
+            "tooltip": "PAV_S6_B01: Possible power is above actual export and local limit is active. Treat this as curtailment, not weather error.",
+            "primary_badge": "ALERT",
+            "secondary_badge": "Grid Curtailment Plateau"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S6_B01",
+            "drawer_title": "PAV_S6_B01 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S6_B02",
+          "block_name": "Hub 6 Block 2",
+          "parent_hub_id": "PAV_HUB_6",
+          "status": "ALERT",
+          "layout_position": {
+            "row": 6,
+            "col": 2
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 46.14,
+            "current_actual_mw": 27.6,
+            "current_possible_power_mw": 37.01,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 28.0,
+            "availability_pct": 88,
+            "performance_ratio_pct": 78.91,
+            "deviation_from_schedule_mw": -6.4,
+            "curtailment_gap_mw": 9.4,
+            "event_probability_pct": 92
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 13,
+            "combiner_boxes": 24,
+            "transformer_status": "WATCH",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S6_2",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 781.22,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S6_2",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 780.57,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S6_2",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 45.73,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S6",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 27.6,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 37.01,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 28.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 88,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "grid_curtailment_plateau",
+            "root_cause": "grid_constraint",
+            "event_probability_pct": 92,
+            "operator_message": "Possible power is above actual export and local limit is active. Treat this as curtailment, not weather error."
+          },
+          "visual_cue": {
+            "fill_color": "#5A1420",
+            "border_color": "#FF5C68",
+            "text_color": "#FFE2E6",
+            "badge_color": "#FF5C68",
+            "icon": "AlertTriangle",
+            "label": "Action needed",
+            "meaning": "Confirmed issue or material operating constraint.",
+            "heatmap_value": 55.21,
+            "tooltip": "PAV_S6_B02: Possible power is above actual export and local limit is active. Treat this as curtailment, not weather error.",
+            "primary_badge": "ALERT",
+            "secondary_badge": "Grid Curtailment Plateau"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S6_B02",
+            "drawer_title": "PAV_S6_B02 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S6_B03",
+          "block_name": "Hub 6 Block 3",
+          "parent_hub_id": "PAV_HUB_6",
+          "status": "ALERT",
+          "layout_position": {
+            "row": 6,
+            "col": 3
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 47.99,
+            "current_actual_mw": 27.98,
+            "current_possible_power_mw": 37.12,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 28.0,
+            "availability_pct": 88,
+            "performance_ratio_pct": 76.33,
+            "deviation_from_schedule_mw": -6.02,
+            "curtailment_gap_mw": 9.13,
+            "event_probability_pct": 92
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 13,
+            "combiner_boxes": 24,
+            "transformer_status": "WATCH",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S6_3",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 817.47,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S6_3",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 723.93,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S6_3",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 44.78,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S6",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 27.98,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 37.12,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 28.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 88,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "grid_curtailment_plateau",
+            "root_cause": "grid_constraint",
+            "event_probability_pct": 92,
+            "operator_message": "Possible power is above actual export and local limit is active. Treat this as curtailment, not weather error."
+          },
+          "visual_cue": {
+            "fill_color": "#5A1420",
+            "border_color": "#FF5C68",
+            "text_color": "#FFE2E6",
+            "badge_color": "#FF5C68",
+            "icon": "AlertTriangle",
+            "label": "Action needed",
+            "meaning": "Confirmed issue or material operating constraint.",
+            "heatmap_value": 55.96,
+            "tooltip": "PAV_S6_B03: Possible power is above actual export and local limit is active. Treat this as curtailment, not weather error.",
+            "primary_badge": "ALERT",
+            "secondary_badge": "Grid Curtailment Plateau"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S6_B03",
+            "drawer_title": "PAV_S6_B03 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S6_B04",
+          "block_name": "Hub 6 Block 4",
+          "parent_hub_id": "PAV_HUB_6",
+          "status": "ALERT",
+          "layout_position": {
+            "row": 6,
+            "col": 4
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 46.63,
+            "current_actual_mw": 27.82,
+            "current_possible_power_mw": 39.84,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 28.0,
+            "availability_pct": 88,
+            "performance_ratio_pct": 77.49,
+            "deviation_from_schedule_mw": -6.18,
+            "curtailment_gap_mw": 12.02,
+            "event_probability_pct": 92
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 13,
+            "combiner_boxes": 24,
+            "transformer_status": "WATCH",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S6_4",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 764.57,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S6_4",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 762.58,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S6_4",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 46.02,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S6",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 27.82,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 39.84,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 28.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 88,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "grid_curtailment_plateau",
+            "root_cause": "grid_constraint",
+            "event_probability_pct": 92,
+            "operator_message": "Possible power is above actual export and local limit is active. Treat this as curtailment, not weather error."
+          },
+          "visual_cue": {
+            "fill_color": "#5A1420",
+            "border_color": "#FF5C68",
+            "text_color": "#FFE2E6",
+            "badge_color": "#FF5C68",
+            "icon": "AlertTriangle",
+            "label": "Action needed",
+            "meaning": "Confirmed issue or material operating constraint.",
+            "heatmap_value": 55.65,
+            "tooltip": "PAV_S6_B04: Possible power is above actual export and local limit is active. Treat this as curtailment, not weather error.",
+            "primary_badge": "ALERT",
+            "secondary_badge": "Grid Curtailment Plateau"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S6_B04",
+            "drawer_title": "PAV_S6_B04 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S6_B05",
+          "block_name": "Hub 6 Block 5",
+          "parent_hub_id": "PAV_HUB_6",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 6,
+            "col": 5
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 47.88,
+            "current_actual_mw": 37.99,
+            "current_possible_power_mw": 39.26,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 85.48,
+            "deviation_from_schedule_mw": 3.99,
+            "curtailment_gap_mw": 1.27,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S6_5",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 774.87,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S6_5",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 763.55,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S6_5",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 47.05,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S6",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 37.99,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 39.26,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 75.98,
+            "tooltip": "PAV_S6_B05: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S6_B05",
+            "drawer_title": "PAV_S6_B05 operating details"
+          }
+        }
+      ]
+    },
+    {
+      "hub_id": "PAV_HUB_7",
+      "hub_name": "Hub / Segment 7",
+      "plant_id": "SOL_PAVAGADA",
+      "status": "GOOD",
+      "layout_position": {
+        "row": 7,
+        "col_start": 1,
+        "col_end": 5
+      },
+      "kpis": {
+        "capacity_mw": 250,
+        "max_historical_output_mw": 238.35,
+        "current_actual_mw": 174.21,
+        "current_possible_power_mw": 180.88,
+        "current_schedule_mw": 170.0,
+        "local_limit_mw": 275.0,
+        "availability_pct": 97.6,
+        "performance_ratio_pct": 85.72,
+        "curtailment_gap_mw": 6.67,
+        "deviation_from_schedule_mw": 4.21,
+        "event_probability_pct": 4
+      },
+      "active_event": {
+        "event_type": "normal",
+        "root_cause": "normal",
+        "event_probability_pct": 4,
+        "operator_message": "No material event detected."
+      },
+      "visual_cue": {
+        "fill_color": "#0B5F45",
+        "border_color": "#35D07F",
+        "text_color": "#D8FFF0",
+        "badge_color": "#35D07F",
+        "icon": "CheckCircle",
+        "label": "Healthy",
+        "meaning": "Normal operating state.",
+        "heatmap_value": 69.68,
+        "tooltip": "No material event detected.",
+        "primary_badge": "GOOD",
+        "secondary_badge": "Normal"
+      },
+      "click_action": {
+        "component": "HubDetailDrawer",
+        "lookup_key": "hub_id",
+        "lookup_value": "PAV_HUB_7",
+        "drawer_title": "Hub / Segment 7 details"
+      },
+      "drilldown_sections": [
+        "Operating KPIs",
+        "Block contribution",
+        "SCADA tags",
+        "Sensor health",
+        "Current event",
+        "Forecast contribution by horizon"
+      ],
+      "forecast_contribution": [
+        {
+          "horizon": "5min",
+          "forecast_p50_mw": 175.95,
+          "forecast_band_mw": 12.5,
+          "confidence_pct": 88
+        },
+        {
+          "horizon": "2hour",
+          "forecast_p50_mw": 173.64,
+          "forecast_band_mw": 32.5,
+          "confidence_pct": 82
+        },
+        {
+          "horizon": "40hour",
+          "forecast_p50_mw": 164.6,
+          "forecast_band_mw": 60.0,
+          "confidence_pct": 76
+        }
+      ],
+      "blocks": [
+        {
+          "block_id": "PAV_S7_B01",
+          "block_name": "Hub 7 Block 1",
+          "parent_hub_id": "PAV_HUB_7",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 7,
+            "col": 1
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 46.26,
+            "current_actual_mw": 37.0,
+            "current_possible_power_mw": 37.97,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 88.5,
+            "deviation_from_schedule_mw": 3.0,
+            "curtailment_gap_mw": 0.97,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S7_1",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 801.82,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S7_1",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 794.12,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S7_1",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 44.23,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S7",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 37.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 37.97,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 74.0,
+            "tooltip": "PAV_S7_B01: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S7_B01",
+            "drawer_title": "PAV_S7_B01 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S7_B02",
+          "block_name": "Hub 7 Block 2",
+          "parent_hub_id": "PAV_HUB_7",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 7,
+            "col": 2
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 46.19,
+            "current_actual_mw": 37.38,
+            "current_possible_power_mw": 38.58,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 89.03,
+            "deviation_from_schedule_mw": 3.38,
+            "curtailment_gap_mw": 1.2,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S7_2",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 784.0,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S7_2",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 738.46,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S7_2",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 47.51,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S7",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 37.38,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 38.58,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 74.76,
+            "tooltip": "PAV_S7_B02: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S7_B02",
+            "drawer_title": "PAV_S7_B02 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S7_B03",
+          "block_name": "Hub 7 Block 3",
+          "parent_hub_id": "PAV_HUB_7",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 7,
+            "col": 3
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 48.0,
+            "current_actual_mw": 34.37,
+            "current_possible_power_mw": 35.36,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 90.98,
+            "deviation_from_schedule_mw": 0.37,
+            "curtailment_gap_mw": 0.99,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S7_3",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 765.86,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S7_3",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 729.18,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S7_3",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 44.59,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S7",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 34.37,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 35.36,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 68.75,
+            "tooltip": "PAV_S7_B03: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S7_B03",
+            "drawer_title": "PAV_S7_B03 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S7_B04",
+          "block_name": "Hub 7 Block 4",
+          "parent_hub_id": "PAV_HUB_7",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 7,
+            "col": 4
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 47.64,
+            "current_actual_mw": 38.8,
+            "current_possible_power_mw": 39.67,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 87.22,
+            "deviation_from_schedule_mw": 4.8,
+            "curtailment_gap_mw": 0.86,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S7_4",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 772.62,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S7_4",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 785.04,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S7_4",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 47.22,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S7",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 38.8,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 39.67,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 77.61,
+            "tooltip": "PAV_S7_B04: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S7_B04",
+            "drawer_title": "PAV_S7_B04 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S7_B05",
+          "block_name": "Hub 7 Block 5",
+          "parent_hub_id": "PAV_HUB_7",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 7,
+            "col": 5
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 46.96,
+            "current_actual_mw": 37.29,
+            "current_possible_power_mw": 38.06,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 85.05,
+            "deviation_from_schedule_mw": 3.29,
+            "curtailment_gap_mw": 0.77,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S7_5",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 825.37,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S7_5",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 736.94,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S7_5",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 46.98,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S7",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 37.29,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 38.06,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 74.58,
+            "tooltip": "PAV_S7_B05: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S7_B05",
+            "drawer_title": "PAV_S7_B05 operating details"
+          }
+        }
+      ]
+    },
+    {
+      "hub_id": "PAV_HUB_8",
+      "hub_name": "Hub / Segment 8",
+      "plant_id": "SOL_PAVAGADA",
+      "status": "GOOD",
+      "layout_position": {
+        "row": 8,
+        "col_start": 1,
+        "col_end": 5
+      },
+      "kpis": {
+        "capacity_mw": 300,
+        "max_historical_output_mw": 272.08,
+        "current_actual_mw": 229.43,
+        "current_possible_power_mw": 238.17,
+        "current_schedule_mw": 204.0,
+        "local_limit_mw": 330.0,
+        "availability_pct": 97.6,
+        "performance_ratio_pct": 84.75,
+        "curtailment_gap_mw": 8.73,
+        "deviation_from_schedule_mw": 25.43,
+        "event_probability_pct": 4
+      },
+      "active_event": {
+        "event_type": "normal",
+        "root_cause": "normal",
+        "event_probability_pct": 4,
+        "operator_message": "No material event detected."
+      },
+      "visual_cue": {
+        "fill_color": "#0B5F45",
+        "border_color": "#35D07F",
+        "text_color": "#D8FFF0",
+        "badge_color": "#35D07F",
+        "icon": "CheckCircle",
+        "label": "Healthy",
+        "meaning": "Normal operating state.",
+        "heatmap_value": 76.48,
+        "tooltip": "No material event detected.",
+        "primary_badge": "GOOD",
+        "secondary_badge": "Normal"
+      },
+      "click_action": {
+        "component": "HubDetailDrawer",
+        "lookup_key": "hub_id",
+        "lookup_value": "PAV_HUB_8",
+        "drawer_title": "Hub / Segment 8 details"
+      },
+      "drilldown_sections": [
+        "Operating KPIs",
+        "Block contribution",
+        "SCADA tags",
+        "Sensor health",
+        "Current event",
+        "Forecast contribution by horizon"
+      ],
+      "forecast_contribution": [
+        {
+          "horizon": "5min",
+          "forecast_p50_mw": 231.73,
+          "forecast_band_mw": 15.0,
+          "confidence_pct": 88
+        },
+        {
+          "horizon": "2hour",
+          "forecast_p50_mw": 228.64,
+          "forecast_band_mw": 39.0,
+          "confidence_pct": 82
+        },
+        {
+          "horizon": "40hour",
+          "forecast_p50_mw": 216.73,
+          "forecast_band_mw": 72.0,
+          "confidence_pct": 76
+        }
+      ],
+      "blocks": [
+        {
+          "block_id": "PAV_S8_B01",
+          "block_name": "Hub 8 Block 1",
+          "parent_hub_id": "PAV_HUB_8",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 8,
+            "col": 1
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 46.81,
+            "current_actual_mw": 36.61,
+            "current_possible_power_mw": 37.77,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 89.31,
+            "deviation_from_schedule_mw": 2.61,
+            "curtailment_gap_mw": 1.16,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S8_1",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 776.29,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S8_1",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 767.08,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S8_1",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 44.58,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S8",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 36.61,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 37.77,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 73.21,
+            "tooltip": "PAV_S8_B01: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S8_B01",
+            "drawer_title": "PAV_S8_B01 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S8_B02",
+          "block_name": "Hub 8 Block 2",
+          "parent_hub_id": "PAV_HUB_8",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 8,
+            "col": 2
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 47.54,
+            "current_actual_mw": 36.64,
+            "current_possible_power_mw": 37.44,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 85.55,
+            "deviation_from_schedule_mw": 2.64,
+            "curtailment_gap_mw": 0.8,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S8_2",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 793.89,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S8_2",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 734.9,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S8_2",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 43.02,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S8",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 36.64,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 37.44,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 73.28,
+            "tooltip": "PAV_S8_B02: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S8_B02",
+            "drawer_title": "PAV_S8_B02 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S8_B03",
+          "block_name": "Hub 8 Block 3",
+          "parent_hub_id": "PAV_HUB_8",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 8,
+            "col": 3
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 45.79,
+            "current_actual_mw": 37.87,
+            "current_possible_power_mw": 38.86,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 89.45,
+            "deviation_from_schedule_mw": 3.87,
+            "curtailment_gap_mw": 0.98,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S8_3",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 804.13,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S8_3",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 748.49,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S8_3",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 43.06,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S8",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 37.87,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 38.86,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 75.74,
+            "tooltip": "PAV_S8_B03: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S8_B03",
+            "drawer_title": "PAV_S8_B03 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S8_B04",
+          "block_name": "Hub 8 Block 4",
+          "parent_hub_id": "PAV_HUB_8",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 8,
+            "col": 4
+          },
+          "kpis": {
+            "capacity_mw": 50,
+            "max_historical_output_mw": 47.71,
+            "current_actual_mw": 34.61,
+            "current_possible_power_mw": 35.38,
+            "current_schedule_mw": 34.0,
+            "local_limit_mw": 55.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 88.27,
+            "deviation_from_schedule_mw": 0.61,
+            "curtailment_gap_mw": 0.77,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 18,
+            "inverters_online": 18,
+            "combiner_boxes": 24,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S8_4",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 826.77,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S8_4",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 762.43,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S8_4",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 43.89,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S8",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 34.61,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 35.38,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 34.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 55.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 18,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 69.22,
+            "tooltip": "PAV_S8_B04: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S8_B04",
+            "drawer_title": "PAV_S8_B04 operating details"
+          }
+        },
+        {
+          "block_id": "PAV_S8_B05",
+          "block_name": "Hub 8 Block 5",
+          "parent_hub_id": "PAV_HUB_8",
+          "status": "GOOD",
+          "layout_position": {
+            "row": 8,
+            "col": 5
+          },
+          "kpis": {
+            "capacity_mw": 100,
+            "max_historical_output_mw": 95.39,
+            "current_actual_mw": 69.12,
+            "current_possible_power_mw": 71.27,
+            "current_schedule_mw": 68.0,
+            "local_limit_mw": 110.0,
+            "availability_pct": 98,
+            "performance_ratio_pct": 89.78,
+            "deviation_from_schedule_mw": 1.12,
+            "curtailment_gap_mw": 2.15,
+            "event_probability_pct": 4
+          },
+          "equipment": {
+            "inverter_count": 36,
+            "inverters_online": 18,
+            "combiner_boxes": 48,
+            "transformer_status": "GOOD",
+            "breaker_status": "CLOSED"
+          },
+          "sensors": [
+            {
+              "sensor_id": "POA_S8_5",
+              "type": "POA irradiance",
+              "field": "poa_wm2",
+              "status": "GOOD",
+              "latest_value": 828.86,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "GHI_S8_5",
+              "type": "GHI irradiance",
+              "field": "ghi_wm2",
+              "status": "GOOD",
+              "latest_value": 790.9,
+              "unit": "W/m\u00b2"
+            },
+            {
+              "sensor_id": "MODTEMP_S8_5",
+              "type": "Module temperature",
+              "field": "module_temp_c",
+              "status": "GOOD",
+              "latest_value": 44.26,
+              "unit": "\u00b0C"
+            },
+            {
+              "sensor_id": "SKY_S8",
+              "type": "Sky-camera proxy",
+              "field": "cloud_obstruction_probability",
+              "status": "GOOD",
+              "latest_value": 0.12,
+              "unit": "0-1"
+            }
+          ],
+          "scada_tags": {
+            "actual_mw": {
+              "value": 69.12,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "possible_power_mw": {
+              "value": 71.27,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "scheduled_mw": {
+              "value": 68.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "local_limit_mw": {
+              "value": 110.0,
+              "unit": "MW",
+              "quality": "GOOD"
+            },
+            "availability_pct": {
+              "value": 98,
+              "unit": "%",
+              "quality": "GOOD"
+            },
+            "inverters_online": {
+              "value": 36,
+              "unit": "count",
+              "quality": "GOOD"
+            },
+            "scada_latency_seconds": {
+              "value": 8,
+              "unit": "seconds",
+              "quality": "GOOD"
+            }
+          },
+          "active_event": {
+            "event_type": "normal",
+            "root_cause": "normal",
+            "event_probability_pct": 4,
+            "operator_message": "No material event detected."
+          },
+          "visual_cue": {
+            "fill_color": "#0B5F45",
+            "border_color": "#35D07F",
+            "text_color": "#D8FFF0",
+            "badge_color": "#35D07F",
+            "icon": "CheckCircle",
+            "label": "Healthy",
+            "meaning": "Normal operating state.",
+            "heatmap_value": 69.12,
+            "tooltip": "PAV_S8_B05: No material event detected.",
+            "primary_badge": "GOOD",
+            "secondary_badge": "Normal"
+          },
+          "click_action": {
+            "component": "BlockDetailDrawer",
+            "lookup_key": "block_id",
+            "lookup_value": "PAV_S8_B05",
+            "drawer_title": "PAV_S8_B05 operating details"
+          }
+        }
+      ]
+    }
+  ]
+}

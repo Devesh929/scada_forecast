@@ -1,0 +1,28 @@
+{
+  "problem": "The current page is visually clean but too shallow. It shows sensor chips and a 40-block heatmap, but clicking does not provide meaningful hub/block/SCADA detail.",
+  "fix": "Use the provided JSON files to populate a granular infrastructure map, hub detail drawer, block detail drawer, and SCADA field info drawer.",
+  "files_to_use": {
+    "plant_brief_granular_data.json": "Main plant/hub/block hierarchy and visual cues.",
+    "scada_data_dictionary.json": "Plain-language definitions for SCADA/MET/forecast fields.",
+    "plant_brief_ui_spec.json": "Page layout, click behavior and acceptance tests.",
+    "plant_layout_blocks_flat.csv": "Flat block table if easier for mapping heatmap cells."
+  },
+  "component_mapping": {
+    "PlantHero": "plant",
+    "OperatingSnapshotCards": "plant.current_operating_snapshot",
+    "HubHeatmap": "hubs",
+    "BlockGrid": "hubs[].blocks",
+    "HubDetailDrawer": "hubs[hub_id]",
+    "BlockDetailDrawer": "hubs[].blocks[block_id]",
+    "DataChannelAccordion": "scada_data_dictionary.groups",
+    "FieldInfoDrawer": "scada_data_dictionary.groups[].fields[field_name]"
+  },
+  "minimum_required_interactions": [
+    "Click hub -> HubDetailDrawer",
+    "Click block -> BlockDetailDrawer",
+    "Click SCADA/MET/NWP chip -> FieldInfoDrawer",
+    "Hover hub/block -> tooltip from visual_cue.tooltip",
+    "Color each cell by visual_cue.fill_color",
+    "Show legend for GOOD/WATCH/ALERT/STALE"
+  ]
+}
