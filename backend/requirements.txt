@@ -1,0 +1,13 @@
+﻿fastapi
+uvicorn
+pandas
+numpy
+requests
+scikit-learn
+prophet
+xgboost
+lightgbm
+statsmodels
+azure-storage-blob
+azure-identity
+tqdm
