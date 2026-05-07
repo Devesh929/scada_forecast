@@ -106,10 +106,22 @@ function PlantBrief({ plant, simState }: { plant: any; simState: any }) {
     fetch('/data/brief/plant_brief_granular_data.json').then(res => res.json()).then(d => {
       // If technology is wind, transform the labels dynamically for parity
       if (plant.technology === 'wind') {
-        const windData = JSON.parse(JSON.stringify(d).replace(/Solar/g, 'Wind').replace(/inverter/g, 'turbine').replace(/Irradiance/g, 'Wind Speed').replace(/Irradiance/g, 'Wind Speed').replace(/POA/g, 'Anemometer'));
+        const windData = JSON.parse(
+          JSON.stringify(d)
+            .replace(/Solar/g, 'Wind')
+            .replace(/inverter/g, 'turbine')
+            .replace(/Inverter/g, 'Turbine')
+            .replace(/Irradiance/g, 'Wind Speed')
+            .replace(/POA/g, 'Anemometer')
+            .replace(/PAV/g, 'WND')
+            .replace(/Pavagada/g, 'Gadag')
+            .replace(/Segment/g, 'Cluster')
+            .replace(/Block/g, 'Turbine')
+            .replace(/block/g, 'turbine')
+        );
         windData.plant.plant_id = "WND_GADAG";
         windData.plant.plant_name = "Gadag Wind Farm";
-        windData.plant.layout_summary = "8 hubs / 40 turbines / nacelle groups";
+        windData.plant.layout_summary = "8 clusters / 40 turbines / nacelle groups";
         setData(windData);
       } else {
         setData(d);
@@ -185,14 +197,14 @@ function PlantBrief({ plant, simState }: { plant: any; simState: any }) {
       <div className="grid grid-cols-4 gap-4">
         <Kpi label="Live Output" value={`${snap.actual_mw} MW`} tone="emerald" subValue={`Scheduled: ${snap.scheduled_mw} MW`} />
         <Kpi label="Possible Power" value={`${snap.possible_power_mw} MW`} tone="blue" subValue="Unconstrained Potential" />
-        <Kpi label="Availability" value={`${snap.availability_pct}%`} tone="amber" subValue="Inverters Online" />
+        <Kpi label="Availability" value={`${snap.availability_pct}%`} tone="amber" subValue={plant.technology === 'wind' ? "Turbines Online" : "Inverters Online"} />
         <Kpi label="Health Status" value={snap.latest_event_status} tone={snap.latest_event_status === 'NORMAL' ? 'emerald' : 'amber'} subValue="Global Plant Monitor" />
       </div>
 
       {/* 3. Interactive Infrastructure Map */}
       <div className="bg-black/40 border border-white/10 rounded-3xl p-8">
         <div className="flex justify-between items-end mb-8">
-          <SectionHeader title="Infrastructure Topology" subtitle="Click any Hub or Block for granular telemetry and equipment health." />
+          <SectionHeader title="Infrastructure Topology" subtitle={plant.technology === 'wind' ? "Click any Cluster or Turbine for granular telemetry and equipment health." : "Click any Hub or Block for granular telemetry and equipment health."} />
           <div className="flex gap-4 mb-6">
             {Object.entries(data.visual_status_palette).map(([key, val]: any) => (
               <div key={key} className="flex items-center gap-2">
@@ -218,7 +230,7 @@ function PlantBrief({ plant, simState }: { plant: any; simState: any }) {
                       <StatusIcon name={hub.visual_cue.icon} className="w-3 h-3" style={{ color: hub.visual_cue.border_color }} />
                     </div>
                     <p className="text-[11px] font-bold text-white mb-1">{hub.hub_name}</p>
-                    <p className="text-[10px] text-slate-500">{hub.kpis.capacity_mw} MW Segment</p>
+                    <p className="text-[10px] text-slate-500">{hub.kpis.capacity_mw} MW {plant.technology === 'wind' ? 'Cluster' : 'Segment'}</p>
                   </div>
                   <div className="pt-2 mt-2 border-t border-white/5 flex justify-between items-center">
                     <span className="text-[10px] font-mono text-emerald-400">{hub.kpis.current_actual_mw?.toFixed(1) || '0.0'} MW</span>
@@ -947,8 +959,8 @@ function AggregationView({ plant, simState, hierarchyTree, hierarchyTimeline }: 
 
           <div className="space-y-4">
             <div className="flex justify-between items-center mb-2">
-              <div className="text-[10px] font-black uppercase text-slate-500 tracking-widest">Level 2: Hub / Segment Rollup</div>
-              <span className="text-[9px] text-slate-500 italic">Click a hub to view segment intelligence</span>
+              <div className="text-[10px] font-black uppercase text-slate-500 tracking-widest">Level 2: {plant.technology === 'wind' ? 'Cluster Rollup' : 'Hub / Segment Rollup'}</div>
+              <span className="text-[9px] text-slate-500 italic">Click a {plant.technology === 'wind' ? 'cluster' : 'hub'} to view {plant.technology === 'wind' ? 'cluster' : 'segment'} intelligence</span>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -999,7 +1011,7 @@ function AggregationView({ plant, simState, hierarchyTree, hierarchyTimeline }: 
 
         {/* Right Section: Hub Intelligence */}
         <div className="w-full xl:w-[400px] space-y-6">
-          <div className="text-[10px] font-black uppercase text-slate-500 tracking-widest mb-2">Segment Intelligence</div>
+          <div className="text-[10px] font-black uppercase text-slate-500 tracking-widest mb-2">{plant.technology === 'wind' ? 'Cluster Intelligence' : 'Segment Intelligence'}</div>
           
           {selectedHub ? (
             <div className="bg-black/40 border border-white/10 rounded-3xl p-6 space-y-6 sticky top-0 animate-in fade-in zoom-in-95 duration-300">
@@ -1015,7 +1027,7 @@ function AggregationView({ plant, simState, hierarchyTree, hierarchyTimeline }: 
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 rounded-2xl bg-white/5 border border-white/5">
-                  <p className="text-[9px] uppercase text-slate-500 font-black mb-1">Block Count</p>
+                  <p className="text-[9px] uppercase text-slate-500 font-black mb-1">{plant.technology === 'wind' ? 'Turbine Count' : 'Block Count'}</p>
                   <p className="text-xl font-bold text-white">{selectedHub.children?.length || 0}</p>
                 </div>
                 <div className="p-4 rounded-2xl bg-white/5 border border-white/5">
@@ -1047,7 +1059,7 @@ function AggregationView({ plant, simState, hierarchyTree, hierarchyTimeline }: 
                     </div>
                   )) : (
                     <div className="py-8 text-center">
-                      <p className="text-[10px] text-slate-500 italic">No significant events detected for this segment.</p>
+                      <p className="text-[10px] text-slate-500 italic">No significant events detected for this {plant.technology === 'wind' ? 'cluster' : 'segment'}.</p>
                     </div>
                   )}
                 </div>
@@ -1059,7 +1071,7 @@ function AggregationView({ plant, simState, hierarchyTree, hierarchyTimeline }: 
                   <div>
                     <p className="text-[10px] font-bold text-emerald-400 uppercase mb-1">Rollup Intelligence</p>
                     <p className="text-[11px] text-slate-400 leading-relaxed">
-                      Telemetry for this segment is aggregated from {selectedHub.children?.length} individual blocks. 
+                      Telemetry for this {plant.technology === 'wind' ? 'cluster' : 'segment'} is aggregated from {selectedHub.children?.length} individual {plant.technology === 'wind' ? 'turbines' : 'blocks'}. 
                       Forecast bias is currently within acceptable limits (&lt;5%).
                     </p>
                   </div>
